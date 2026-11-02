@@ -10,4 +10,4 @@ La rama DOS incluye menú gráfico de referencia, tres espacios de mundo, invent
 - [Validación y capturas con 6 MB](dos/validation/).
 - [Análisis y pseudocódigo de referencia](docs/reverse-engineering/README.md).
 
-**El port sigue incompleto.** Los animales usan sprites, no los modelos 3D originales; hay sistemas de supervivencia y comportamiento de bloques pendientes. Multiplayer y carga de mods aún no funcionan. La documentación distingue el catálogo y las pantallas de las funciones efectivamente portadas. `BetaPlusPlus.exe` permanece intacto como referencia Windows.
+**El port sigue incompleto.** Los animales y Steve usan modelos 3D aproximados; hay sistemas de supervivencia y comportamiento de bloques pendientes. Multiplayer y carga de mods aún no funcionan. Hay ciclo solar con sol/luna, tinte verde de vegetación, objetos sostenidos y semillas numéricas de 32 bits con generación automática. La documentación distingue el catálogo y las pantallas de las funciones efectivamente portadas. `BetaPlusPlus.exe` permanece intacto como referencia Windows.

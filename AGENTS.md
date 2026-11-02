@@ -10,3 +10,5 @@
 - DOS checks: `python3 dos/tests/run_dosbox.py --docker-image minecraft-dos-test:local` in the prepared environment. Read fresh RESULT.TXT/SMOKE.TXT/EXIT.TXT, not just DOSBox's exit code. Keep 6 MB and CWSDPMI swap disabled. Use original runtime cloud Docker proxy/CA instructions when rebuilding images.
 - Tests isolate world writes; preserve user saves. DOS paths must work without LFN (8.3). Keep third-party notices verbatim. Update package with `python3 dos/tools/package.py` and matching validation hashes after successful relevant checks.
 - GitHub publication was authorized on branch `codex/dos-port`. Do not overwrite unrelated user changes or claim a push succeeded without verifying the remote ref.
+
+- Latest requested scope: 3D animal/hostile/Steve geometry and held arm/items/blocks; sun/moon day-night; green grass/leaves; numeric world seed field and automatic generation. Current models are approximate textured cuboids, hostiles have basic melee only (no arrows/explosions), seeds are unsigned 32-bit rather than Java 64-bit. Do not claim exact original model/AI/worldgen parity. Current DOS check count is 25+99, with 6 MB and no swap.

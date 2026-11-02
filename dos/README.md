@@ -24,9 +24,9 @@ La vida comienza en veinte puntos (diez corazones). Hay daño por caída, comida
 
 **Beta 1.7.3 no tiene barra de hambre.** La comida recupera vida directamente. Se conservan límites antiguos: comida de una unidad, galletas de ocho y huevos/bolas de nieve de dieciséis. Las herramientas tienen desgaste; la velocidad de minado distingue materiales y herramientas, aunque no todas las propiedades de bloques están portadas.
 
-Los cerdos, vacas, ovejas y gallinas tienen vida, deambulan y pueden soltar recursos hacia el inventario. Las ovejas recuerdan si fueron esquiladas. Son sprites con oclusión por profundidad; **todavía no son los modelos 3D y animaciones originales**. Tampoco hay reproducción: esa mecánica no pertenecía a Beta 1.7.3.
+Los cerdos, vacas, ovejas y gallinas tienen vida, deambulan y pueden soltar recursos hacia el inventario. Las ovejas recuerdan si fueron esquiladas. Ahora usan modelos 3D de cajas texturizadas con profundidad; todavía no reproducen exactamente todas las formas, UV y animaciones originales. Tampoco hay reproducción: esa mecánica no pertenecía a Beta 1.7.3.
 
-El inventario usa los recursos originales de interfaz y la skin de Steve; el juego dibuja su brazo. Steve en el inventario es una composición frontal de la skin, no el modelo 3D interactivo original. Las ranuras de armadura se ven en la textura de referencia, pero equipar armadura todavía no está implementado.
+El inventario usa los recursos originales de interfaz y la skin de Steve; el juego dibuja su brazo. Steve en el inventario usa ahora geometría 3D aproximada. Las ranuras de armadura se ven en la textura de referencia, pero equipar armadura todavía no está implementado.
 
 ## Crafteos, logros y estadísticas
 
@@ -86,3 +86,13 @@ Después de validar, `python dos/tools/package.py` prepara el ZIP completo. Los 
 ## Trabajo pendiente
 
 Se mantienen pendientes los modelos/animaciones originales de animales y Steve, armadura funcional, objetos tirados, enemigos/combate completo, minerales, fundición, cultivos, iluminación completa, agua/lava, ciclos de día/noche, redstone, audio original, red, carga de mods, paquetes completos de texturas y compatibilidad con mundos Windows. El catálogo de recetas y las pantallas son una base para continuar ese port, no evidencia de que esos sistemas ya funcionen.
+
+## Actualización: geometría, cielo, vegetación y semillas
+
+La creación de mundos admite una semilla numérica **sin signo de 32 bits (0–4294967295)**. Clic en el campo o Tab cambia entre nombre y semilla; Random/F4 genera una nueva. Se guarda en WORLDS.DAT. No es el formato completo de semillas Java de 64 bits ni el generador de terreno original.
+
+El renderizador incorpora triángulos texturizados con interpolación en perspectiva, prueba de profundidad y modelos de cajas para animales, Steve y hostiles. Steve del inventario ahora se proyecta como geometría; el brazo y los bloques/items seleccionados se dibujan en primera persona. Las herramientas/items usan una caja delgada con transparencia. Las formas, UV y animaciones son aproximaciones: no se afirma equivalencia exacta con los modelos originales.
+
+Hay zombis, esqueletos y creepers básicos en las plazas de entidades reservadas; se activan de noche y persiguen/atacan cuerpo a cuerpo. Faltan flechas, explosiones, reglas completas de aparición y combustión solar. No se presenta esto como la IA original completa.
+
+El reloj usa los ticks simulados guardados en el perfil, con ciclo de veinte minutos. El cielo y la iluminación del terreno cambian y se dibujan sol y luna con las texturas del repositorio. El césped y las hojas reciben tinte verde mediante una tabla de paleta; no es todavía un sistema de biomas completo. Las descripciones antiguas de sprites y ausencia de ciclo solar corresponden a la compilación anterior y quedan sustituidas por esta sección.

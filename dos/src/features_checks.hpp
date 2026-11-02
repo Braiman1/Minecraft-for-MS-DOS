@@ -40,7 +40,7 @@ inline int checkFeatures(mc::Game& g,mc::Gui& ui,FILE* report){
     p.animals[0].kind=1;p.inventory[0]={325,1,0,0};FEATURE(g.attackAnimal(true));FEATURE(p.inventory[0].id==335);
     // Screen navigation is exercised through the same handlers used by DOS keyboard/mouse.
     memset(ui.worlds,0,sizeof ui.worlds);ui.world=-1;ui.open(mc::MainMenu);ui.draw();FEATURE(ui.screenshot("../MENU.PPM"));
-    ui.click(120,93);FEATURE(ui.screen==mc::WorldList);ui.click(210,139);FEATURE(ui.screen==mc::CreateWorld);strcpy(ui.edit,"Test Survival");ui.click(100,160);FEATURE(ui.screen==mc::Playing&&ui.worlds[0].used);
+    ui.click(120,93);FEATURE(ui.screen==mc::WorldList);ui.click(210,139);FEATURE(ui.screen==mc::CreateWorld);strcpy(ui.edit,"Test Survival");strcpy(ui.seedEdit,"123456");ui.click(100,160);FEATURE(ui.screen==mc::Playing&&ui.worlds[0].used);FEATURE(ui.worlds[0].seed==123456);
     ui.key(18);FEATURE(ui.screen==mc::Inventory&&(p.achievements&1));ui.draw();FEATURE(ui.screenshot("../INV.PPM"));ui.key(18);FEATURE(ui.screen==mc::Playing);
     p.add(17,2);FEATURE(ui.saveWorld());ui.key(1);FEATURE(ui.screen==mc::Paused);ui.click(100,75);FEATURE(ui.screen==mc::Achievements);ui.key(1);FEATURE(ui.screen==mc::Paused);
     ui.click(100,99);FEATURE(ui.screen==mc::StatisticsPage);ui.key(1);ui.click(100,160);FEATURE(ui.screen==mc::MainMenu);
@@ -56,6 +56,9 @@ inline int checkFeatures(mc::Game& g,mc::Gui& ui,FILE* report){
     g.viewDistance=24;g.render();uint32_t before=2166136261U;for(int i=0;i<16000;i++)before=(before^g.frame[i])*16777619U;
     ui.drawAnimals();uint32_t after=2166136261U;for(int i=0;i<16000;i++)after=(after^g.frame[i])*16777619U;FEATURE(before!=after);ui.draw();FEATURE(ui.screenshot("../ANIMALS.PPM"));
     ui.open(mc::WorldList);ui.click(110,163);FEATURE(ui.screen==mc::DeleteWorld);ui.click(100,121);FEATURE(!ui.worlds[0].used);FILE* removed=fopen("WORLD1.SAV","rb");FEATURE(removed==0);if(removed)fclose(removed);
+    unsigned green=0;for(int i=0;i<256;i++){unsigned c=g.vegetation[i];if(g.palette[c*3+1]>g.palette[c*3]&&g.palette[c*3+1]>g.palette[c*3+2])green++;}FEATURE(green>100);
+    g.player.pitch=1.3f;g.player.yaw=0;g.progress.stats.ticks=15000;g.render();ui.drawAnimals();ui.open(mc::Playing);ui.draw();FEATURE(ui.screenshot("../DAY.PPM"));uint8_t dayPixel=g.frame[0];
+    g.progress.stats.ticks=45000;FEATURE(g.night());g.render();ui.drawAnimals();ui.draw();FEATURE(ui.screenshot("../NIGHT.PPM"));FEATURE(dayPixel!=g.frame[0]);
     fprintf(report,"FEATURE_CHECKS=%d FEATURE_FAILURES=%d RECIPE_COUNT=%u\n",checks,failed,count);
 #undef FEATURE
     return failed;

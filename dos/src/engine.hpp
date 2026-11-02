@@ -18,8 +18,11 @@ public:
     uint16_t depth[WIDTH*HEIGHT];
     Progress progress;
     int viewDistance;
+    int difficulty;
     Player player;
     uint8_t selected;
+    uint8_t vegetation[256],lightMap[16][256];
+    bool night()const{return progress.stats.ticks%60000>=30000;}
     Game();
     // Same 16x128x16 block-index layout observed at original VA 00431946.
     static unsigned index(int x,int y,int z);

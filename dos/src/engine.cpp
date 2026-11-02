@@ -12,7 +12,7 @@ static int terrain(int x,int z,uint32_t seed) {
     return 24+((noise(a,b,seed)*(8-u)+noise(a+1,b,seed)*u)*(8-v)
               +(noise(a,b+1,seed)*(8-u)+noise(a+1,b+1,seed)*u)*v)/64;
 }
-Game::Game():viewDistance(24),selected(Stone) { memset(blocks,0,sizeof blocks); memset(atlas,0,sizeof atlas); memset(palette,0,sizeof palette); memset(alpha,0,sizeof alpha); memset(frame,0,sizeof frame); memset(shade,0,sizeof shade); memset(&player,0,sizeof player); }
+Game::Game():viewDistance(24),difficulty(2),selected(Stone) { memset(blocks,0,sizeof blocks); memset(atlas,0,sizeof atlas); memset(palette,0,sizeof palette); memset(alpha,0,sizeof alpha); memset(frame,0,sizeof frame); memset(shade,0,sizeof shade); memset(&player,0,sizeof player); }
 unsigned Game::index(int x,int y,int z) {
     return unsigned(((z>>4)*4+(x>>4))*CHUNK_SIZE+((x&15)<<11)+((z&15)<<7)+y);
 }
@@ -42,7 +42,7 @@ void Game::generate(uint32_t seed) {
     player.x=32.5f;player.z=32.5f;player.y=float(terrain(32,32,seed)+1);
     player.yaw=0.3f;player.pitch=-0.12f;player.vy=0;player.grounded=true;selected=Stone;
     progress.fallStart=player.y;
-    for(int i=0;i<12;i++){Animal& a=progress.animals[i];int x=6+int(hash(seed+unsigned(i)*71)%52),z=6+int(hash(seed+unsigned(i)*137)%52);a.x=x+.5f;a.z=z+.5f;a.y=float(terrain(x,z,seed)+1);a.kind=i%4;a.health=a.kind==2?8:(a.kind==3?4:10);a.yaw=float(i);a.turn=unsigned(i)*17;}
+    for(int i=0;i<12;i++){Animal& a=progress.animals[i];int x=6+int(hash(seed+unsigned(i)*71)%52),z=6+int(hash(seed+unsigned(i)*137)%52);a.x=x+.5f;a.z=z+.5f;a.y=float(terrain(x,z,seed)+1);a.kind=i<8?i%4:4+i%3;a.health=a.kind==2?8:(a.kind==3?4:10);a.yaw=float(i);a.turn=unsigned(i)*17;}
 }
 uint8_t Game::nearest(int r,int g,int b) const {
     unsigned best=UINT_MAX;int found=0;
@@ -54,6 +54,8 @@ uint8_t Game::nearest(int r,int g,int b) const {
     return uint8_t(found);
 }
 void Game::buildShades() {
+    for(int l=0;l<16;l++)for(int i=0;i<256;i++)lightMap[l][i]=nearest(palette[i*3]*(l+2)/17,palette[i*3+1]*(l+2)/17,palette[i*3+2]*(l+2)/17);
+    for(int i=0;i<256;i++)vegetation[i]=nearest(palette[i*3]*100/255,palette[i*3+1]*195/255,palette[i*3+2]*65/255);
     for(int i=0;i<256;i++) for(int s=0;s<3;s++) {
         int light=s==1?256:(s==0?190:220);
         shade[s][i]=nearest(palette[i*3]*light/256,palette[i*3+1]*light/256,palette[i*3+2]*light/256);
@@ -165,6 +167,7 @@ Hit Game::trace(int dx,int dy,int dz,int maxDistance,bool sample) const {
         if(sample&&(color==0||alpha[color]<=coverage[(v&3)*4+(u&3)]*16))continue;
         hit.found=true;hit.x=pos[0];hit.y=pos[1];hit.z=pos[2];hit.block=b;
         hit.nx=axis==0?-step[0]:0;hit.ny=axis==1?-step[1]:0;hit.nz=axis==2?-step[2]:0;
+        if(b==Leaves||(b==Grass&&axis==1))color=vegetation[color];
         hit.color=shade[axis][color];hit.distance=t;return hit;
     }
     return hit;
@@ -210,14 +213,15 @@ void Game::render() {
     float sy=sinf(player.yaw),cy=cosf(player.yaw),sp=sinf(player.pitch),cp=cosf(player.pitch);
     int forward[3]={int(sy*cp*1024),int(sp*1024),int(cy*cp*1024)};
     int right[3]={int(cy*1024),0,int(-sy*1024)},up[3]={int(-sy*sp*1024),int(cp*1024),int(-cy*sp*1024)};
-    uint8_t sky=nearest(110,165,225),white=nearest(255,255,255);
+    float daylight=sinf(float(progress.stats.ticks%60000)*6.2831853f/60000)*1.5f+.3f;if(daylight<0)daylight=0;if(daylight>1)daylight=1;int level=int(daylight*15);
+    uint8_t sky=nearest(int(8+102*daylight),int(12+153*daylight),int(28+197*daylight)),white=nearest(255,255,255);
     for(int y=0;y<HEIGHT;y++) {
         int row=(HEIGHT-1-y*2)*1024/WIDTH;
         int base[3];for(int a=0;a<3;a++)base[a]=forward[a]+up[a]*row/1024;
         for(int x=0;x<WIDTH;x++) {
             int col=(x*2-WIDTH+1)*1024/WIDTH;
             Hit h=trace(base[0]+right[0]*col/1024,base[1],base[2]+right[2]*col/1024,viewDistance,true);
-            frame[y*WIDTH+x]=h.found?h.color:sky;depth[y*WIDTH+x]=h.found?uint16_t(h.distance>>8):65535;
+            frame[y*WIDTH+x]=h.found?lightMap[level][h.color]:sky;depth[y*WIDTH+x]=h.found?uint16_t(h.distance>>8):65535;
         }
     }
     for(int i=-3;i<=3;i++){frame[(HEIGHT/2)*WIDTH+WIDTH/2+i]=white;frame[(HEIGHT/2+i)*WIDTH+WIDTH/2]=white;}
@@ -230,7 +234,8 @@ void Game::render() {
 }
 void Game::updateAnimals(float dt){
     for(int i=0;i<12;i++){Animal& a=progress.animals[i];if(!a.health)continue;
-        if(!a.turn--){a.turn=80+hash(progress.stats.ticks+unsigned(i)*19)%180;a.yaw=float(hash(progress.stats.ticks+unsigned(i)*71)%628)/100;}
+        if(a.kind>=4){if(!night()||!difficulty)continue;a.yaw=atan2f(player.x-a.x,player.z-a.z);float dx=a.x-player.x,dz=a.z-player.z;if(dx*dx+dz*dz<1.5f&&progress.stats.ticks%50==0)progress.hurt(a.kind==6?4:2);}
+        if(a.kind<4&&!a.turn--){a.turn=80+hash(progress.stats.ticks+unsigned(i)*19)%180;a.yaw=float(hash(progress.stats.ticks+unsigned(i)*71)%628)/100;}
         float x=a.x+sinf(a.yaw)*dt*.65f,z=a.z+cosf(a.yaw)*dt*.65f;
         if(x>1&&x<63&&z>1&&z<63&&get(int(x),int(a.y),int(z))==Air&&get(int(x),int(a.y+1),int(z))==Air&&get(int(x),int(a.y-1),int(z))!=Air){a.x=x;a.z=z;}
         else a.yaw+=1.5f;

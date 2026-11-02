@@ -79,7 +79,7 @@ bool Progress::load(const char* path){
     unsigned health=word(f),slot=word(f);p.health=uint8_t(health);p.slot=uint8_t(slot);if(health>20||slot>=9)ok=false;p.achievements=word(f);p.enabled=word(f)!=0;
     for(int i=0;i<45;i++){Stack& s=i<36?p.inventory[i]:p.grid[i-36];unsigned id=word(f),n=word(f),data=word(f),wear=word(f);if(id>=360||n>maxStack(id)||data>15||wear>65535||(!id&&n)||(!n&&id))ok=false;s.id=id;s.count=n;s.data=data;s.wear=wear;}
     uint32_t values[sizeof(p.stats)/4];for(unsigned i=0;i<sizeof(p.stats)/4;i++)values[i]=word(f);memcpy(&p.stats,values,sizeof p.stats);
-    for(int i=0;i<12;i++){Animal& a=p.animals[i];float xyz[4];for(int j=0;j<4;j++){uint32_t bits=word(f);memcpy(&xyz[j],&bits,4);if(!(xyz[j]>-10000&&xyz[j]<10000))ok=false;}a.x=xyz[0];a.y=xyz[1];a.z=xyz[2];a.yaw=xyz[3];a.turn=uint16_t(word(f));a.kind=uint8_t(word(f));a.health=uint8_t(word(f));a.sheared=uint8_t(word(f));if(a.kind>3||a.health>10||a.sheared>1)ok=false;}
+    for(int i=0;i<12;i++){Animal& a=p.animals[i];float xyz[4];for(int j=0;j<4;j++){uint32_t bits=word(f);memcpy(&xyz[j],&bits,4);if(!(xyz[j]>-10000&&xyz[j]<10000))ok=false;}a.x=xyz[0];a.y=xyz[1];a.z=xyz[2];a.yaw=xyz[3];a.turn=uint16_t(word(f));a.kind=uint8_t(word(f));a.health=uint8_t(word(f));a.sheared=uint8_t(word(f));if(a.kind>6||a.health>10||a.sheared>1)ok=false;}
     uint32_t actual=fileHash,expected=word(f);ok=ok&&actual==expected&&fgetc(f)==EOF;
     fclose(f);if(ok)*this=p;return ok;
 }

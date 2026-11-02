@@ -19,8 +19,10 @@ Menu: Singleplayer, Multiplayer notice, Texture Packs and Options.
 Three finite world slots; WORLD1.SAV/PLY etc. Backups: BAK/PBK.
 Inventory: TAB select, ENTER move, R split/place one, C craft.
 151 reconstructed Beta recipes; health, inventory, achievements, statistics.
-Basic passive animals use sprites, not the original 3D models.
-Still no hostile mobs, smelting/farming/redstone/original audio/network/mod loader.
+Textured box models, held items, green vegetation, sun/moon and day/night.
+Basic nocturnal hostiles; no arrows/explosions or full original AI.
+World seeds: unsigned 32-bit numeric field; Random/F4 generates one.
+Still no smelting/farming/redstone/original audio/network/mod loader.
 See dos/README.md in the source repository for limitations and validation.
 
 CWSDPMI Copyright (C) 1995-2010 Charles W Sandmann.
