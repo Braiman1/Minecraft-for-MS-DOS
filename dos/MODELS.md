@@ -24,3 +24,7 @@ El reloj del mundo está separado de los pasos limitados de física. Se alimenta
 Un ciclo tiene 1.200 segundos: día 600, atardecer 90, noche 420 y amanecer 90. Internamente son 60.000 unidades de 20 ms, equivalentes temporalmente a los 24.000 ticks de 50 ms de la referencia. El perfil `MCPROG03` guarda el reloj; admite leer perfiles previos `MCPROG02`, tomando su fase del contador anterior.
 
 Las pruebas inyectan 1.200 segundos, comprueban fases y guardado, y repiten el avance a 1, 5 y 60 cuadros por segundo. No son una espera física de veinte minutos ni un benchmark de Pentium. La curva exacta del ángulo celeste y todos los efectos ambientales originales todavía no tienen equivalencia completa.
+
+## Pose de primera persona
+
+Se invirtió la orientación para mostrar el puño arriba y la manga hacia el borde inferior, con inclinación hacia el centro. La geometría se proyecta con una cámara local y se restaura la cámara del mundo después. El cambio corresponde únicamente a la pose de referencia: no reemplaza el escenario ni la skin.

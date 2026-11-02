@@ -120,7 +120,10 @@ void Gui::drawAnimals(){
  for(int i=0;i<16000;i++)overlayDepth[i]=65535;
  float sy=sinf(game.player.yaw),cy=cosf(game.player.yaw),sp=sinf(game.player.pitch),cp=cosf(game.player.pitch),cx=game.player.x+sy*cp*.7f+cy*.35f+sy*sp*.4f,cz=game.player.z+cy*cp*.7f-sy*.35f+cy*sp*.4f,handY=game.player.y+1.6f+sp*.7f-cp*.4f;
  float swing=mining>0?fabsf(sinf(game.progress.stats.ticks*.4f)):sinf(attackAnimation*3.14159265f);
- part(cx,handY-.75f,cz,game.player.yaw+.3f,8,40,16,0,12,0,-2,0,-2,4,12,4,-.2f-swing*.8f,0,true);
+ // First-person pose is camera-relative: changing look pitch must not rotate the arm out of view.
+ Player handCamera=game.player;game.player.x=0;game.player.y=-1.6f;game.player.z=0;game.player.yaw=0;game.player.pitch=0;
+ part(.47f-swing*.2f,-1.6f+swing*.06f,.95f+swing*.08f,.3f,8,40,16,0,12,0,-2,0,-2,4,12,4,2.89159265f-swing*.18f,.18f-swing*.05f,true);
+ game.player=handCamera;
  unsigned held=game.progress.inventory[game.progress.slot].id;
  if(held){int tile=held<256?blockTile(held):int(Progress::icon(held));box(cx-sy*.05f+cy*swing*.12f,handY+.25f-swing*.2f,cz-cy*.05f-sy*swing*.12f,.38f,.4f,held<256?.38f:.035f,game.player.yaw-.3f+swing*.6f,held<256?-1:6,tile%16*16-8,tile/16*16-8,true);}
 

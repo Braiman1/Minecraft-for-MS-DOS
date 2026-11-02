@@ -66,6 +66,9 @@ inline int checkFeatures(mc::Game& g,mc::Gui& ui,FILE* report){
     g.progress.worldTicks=12345;FEATURE(g.progress.save("CLOCK.PLY"));g.progress.worldTicks=0;FEATURE(g.progress.load("CLOCK.PLY")&&g.progress.worldTicks==12345);
     g.player.x=32;g.player.y=31;g.player.z=20;g.player.yaw=0;g.player.pitch=0;g.viewDistance=24;
     for(int kind=0;kind<7;kind++){for(int i=0;i<12;i++)p.animals[i].health=0;p.animals[0]={32,31,24,3.14159f,0,uint8_t(kind),10,0};g.progress.worldTicks=kind>=4?45000:15000;g.render();ui.drawAnimals();ui.draw();char name[24];sprintf(name,"../MODEL%d.PPM",kind);FEATURE(ui.screenshot(name));}
+    memset(g.blocks,0,sizeof g.blocks);for(int i=0;i<12;i++)p.animals[i].health=0;memset(p.inventory,0,sizeof p.inventory);g.player.pitch=0;g.player.yaw=0;ui.mining=0;ui.attackAnimation=0;g.render();ui.drawAnimals();ui.draw();FEATURE(ui.screenshot("../HAND.PPM"));uint32_t handHash=2166136261U;for(int y=110;y<175;y++)for(int x=210;x<320;x++)handHash=(handHash^ui.pixels[y*320+x])*16777619U;
+    g.player.pitch=1.0f;g.render();ui.drawAnimals();ui.draw();FEATURE(ui.screenshot("../HANDUP.PPM"));uint32_t upHash=2166136261U;for(int y=110;y<175;y++)for(int x=210;x<320;x++)upHash=(upHash^ui.pixels[y*320+x])*16777619U;FEATURE(handHash==upHash);
+    ui.attackAnimation=.5f;g.render();ui.drawAnimals();ui.draw();FEATURE(ui.screenshot("../PUNCH.PPM"));
     fprintf(report,"FEATURE_CHECKS=%d FEATURE_FAILURES=%d RECIPE_COUNT=%u\n",checks,failed,count);
 #undef FEATURE
     return failed;
