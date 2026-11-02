@@ -5,14 +5,22 @@
   "core": "normal",
   "cycles": 50000,
   "dpmi_swap": false,
-  "checks": 25,
+  "engine_checks": 25,
+  "feature_checks": 93,
   "failures": 0,
+  "recipe_count": 151,
   "vga_mode": "13h",
   "vga_readback_mismatches": 0,
+  "host_sanitizers": [
+    "AddressSanitizer",
+    "UndefinedBehaviorSanitizer",
+    "LeakSanitizer"
+  ],
   "real_pentium_benchmarked": false,
   "files": {
-    "MCDOS.EXE": "ab1b73dd3257db1400629e6d688fd87afc731f453171fcb648363e6b779003c7",
+    "MCDOS.EXE": "7f80605320b36adc5fe38a0eb67f8bcc404424064df05cdcfbfe470fa74b6ea5",
     "ATLAS.DAT": "b4ef8122346566d5be3a5754073660a486153a3c9bdcdd9e977e80774fa90b86",
+    "GUI.DAT": "b2e4e9bcbf4b58770f9ce478b0193472b71d704b0382d40e3723f699dfd3a23a",
     "CWSDPMI.EXE": "2de899fecaa90632b8b9bdfc0305cb0375e59ae252c37e32d06c1ed3f98a8f44"
   }
 }

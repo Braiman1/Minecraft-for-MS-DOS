@@ -5,3 +5,5 @@
 - **DOSBox 0.74-3** se usa externamente para validación; no forma parte del ejecutable del juego.
 
 Las texturas son los archivos ya existentes en este repositorio. La conversión no cambia los originales ni determina su procedencia o licencia.
+
+- **Pillow 12.3.0** se usa como dependencia externa de compilación para convertir los recursos originales de GUI/skins. No se incluye ni se necesita en DOS; la versión está fijada en `dos/tools/requirements.txt`.

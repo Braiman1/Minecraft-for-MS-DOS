@@ -1,63 +1,88 @@
-# Primera versión DOS
+# Minecraft DOS: interfaz Beta y supervivencia básica
 
-Esta es una reconstrucción jugable nueva del núcleo de bloques para **Pentium, VGA y 6 MB**, usando el atlas de texturas del repositorio. El formato de indexación de chunks se contrastó con el desensamblado de `BetaPlusPlus.exe`. El pseudocódigo recuperado sirve como referencia; no se presenta esta implementación como una recuperación exacta de las fuentes originales.
+Objetivo: **Beta 1.7.3, Pentium, VGA y 6 MB de RAM**. Esta rama reconstruye funcionalidades a partir del ejecutable y recursos del repositorio; no es una recuperación exacta de todas las fuentes ni un port completo.
 
-## Ejecutar en DOS
+## Ejecutar
 
-Extrae `MCDOS.ZIP` en una carpeta, entra en ella y ejecuta `PLAY.BAT`, o estos comandos:
+Extrae `dos/dist/MCDOS.ZIP` en una carpeta y ejecuta `PLAY.BAT`. Incluye CWSDPMI y las licencias originales. El lanzador usa `CWSDPMI -p -s-`, sin intercambio en disco.
 
-```dos
-CWSDPMI -p -s-
-MCDOS
-```
+Se inicia en el menú gráfico de referencia, con Singleplayer, Multiplayer, Mods and Texture Packs y Options. Flechas/Tab y Enter permiten navegar; también se admite ratón si hay un controlador DOS instalado.
 
-El parámetro `-s-` desactiva el archivo de intercambio. Se requiere un Pentium o posterior, VGA, DOS compatible y memoria extendida. El entorno emulado se verificó con 6 MB totales. No se ha medido todavía en un Pentium físico ni en una instalación real de MS-DOS 6.22.
+En **Singleplayer** hay tres espacios para crear, jugar, renombrar y eliminar mundos. El nombre admite 24 caracteres ASCII. Los mundos son finitos, de 64×128×64 bloques, con semillas deterministas distintas por espacio; todavía no hay editor de semillas ni generación equivalente a la del ejecutable Windows.
 
-- WASD: caminar; flechas: mirar; espacio: saltar.
-- X: romper el bloque apuntado; C: colocar el seleccionado.
-- 1–7: piedra, tierra, adoquín, tablas, arena, tronco y cristal.
-- Ratón opcional, con un controlador DOS instalado: mirar, botón izquierdo para romper y derecho para colocar.
-- F5: guardar. Escape: guardar y salir.
+## Controles y juego
 
-Los guardados se escriben en `WORLD.SAV`; el anterior se conserva en `WORLD.BAK`. No se sobrescriben las partidas originales `.minecraft`. Este formato propio no importa todavía mundos `.mcr` ni conserva un inventario de supervivencia.
+- WASD: caminar. Flechas o ratón: mirar. Espacio: saltar.
+- X o botón izquierdo mantenido: romper bloques con tiempo de minado; atacar animales.
+- C o botón derecho: colocar, abrir la mesa de crafteo, esquilar una oveja con tijeras u ordeñar una vaca con cubo.
+- E: inventario de 36 espacios y crafteo 2×2. Una mesa colocada abre la cuadrícula 3×3.
+- 1–9: seleccionar la barra rápida. R durante el juego: comer el alimento seleccionado.
+- Inventario/crafteo: clic izquierdo mueve pilas, clic derecho divide o coloca una unidad; clic en el resultado lo toma con el cursor. Con teclado: Tab/flechas seleccionan, Enter mueve, R divide/coloca una unidad y C fabrica hacia el inventario.
+- F5 guarda. Escape pausa; **Save and quit to title** guarda y vuelve al menú.
 
-## Alcance y límites
+La vida comienza en veinte puntos (diez corazones). Hay daño por caída, comida que recupera vida y una pantalla de muerte con reaparición. Al reaparecer se vacía el inventario; aún no existen entidades de objetos en el suelo para recuperar los objetos perdidos.
 
-Incluye mundo determinista finito de 64×128×64 bloques, terreno y árboles sencillos, renderizado de voxels por software, colisiones, gravedad, salto, selección de bloques, romper/colocar y guardado con checksum. El render interno es 160×100, ampliado a VGA modo 13h de 320×200, con alcance visual de 24 bloques.
+**Beta 1.7.3 no tiene barra de hambre.** La comida recupera vida directamente. Se conservan límites antiguos: comida de una unidad, galletas de ocho y huevos/bolas de nieve de dieciséis. Las herramientas tienen desgaste; la velocidad de minado distingue materiales y herramientas, aunque no todas las propiedades de bloques están portadas.
 
-El atlas conserva los RGB y alpha originales en `ATLAS.DAT`. La salida VGA reduce la precisión de color a seis bits por canal; usa tramado para la transparencia parcial y una tabla de iluminación por cara. No implementa todavía tintado por bioma, todas las texturas de entidades ni equivalencia visual exacta. Los archivos PNG originales permanecen intactos.
+Los cerdos, vacas, ovejas y gallinas tienen vida, deambulan y pueden soltar recursos hacia el inventario. Las ovejas recuerdan si fueron esquiladas. Son sprites con oclusión por profundidad; **todavía no son los modelos 3D y animaciones originales**. Tampoco hay reproducción: esa mecánica no pertenecía a Beta 1.7.3.
 
-**No es un port completo de todas las mecánicas.** Faltan inventario de supervivencia, crafteo, durabilidad/herramientas, criaturas/IA, iluminación por bloques, ciclos de día y noche, agua/lava, hornos, redstone, música/sonidos originales, multijugador y carga de los mundos existentes. El sonido actual se limita al aviso del PC speaker al guardar. La generación de terreno es nueva y no reproduce el generador del ejecutable original.
+El inventario usa los recursos originales de interfaz y la skin de Steve; el juego dibuja su brazo. Steve en el inventario es una composición frontal de la skin, no el modelo 3D interactivo original. Las ranuras de armadura se ven en la textura de referencia, pero equipar armadura todavía no está implementado.
 
-## Compilar
+## Crafteos, logros y estadísticas
 
-Requiere Python 3 (biblioteca estándar) y DJGPP GCC 12.2 para Linux de 64 bits:
+El catálogo versionado está en [data/recipes-beta-1.7.3.json](data/recipes-beta-1.7.3.json); [RECIPES.md](RECIPES.md) lo muestra de forma legible. Contiene 151 registros reconstruidos y se compila a una tabla C++ estática. El comprobador admite desplazamiento, reflejo, metadatos y recetas sin forma. Consume cantidades, respeta límites de pila y devuelve los cubos vacíos de una tarta.
+
+Esto **no significa que todas las recetas se hayan verificado individualmente ni que todos los ingredientes sean obtenibles en esta generación de mundo**. Por ejemplo, aún faltan minería de minerales, fundición, cultivos, pesca y otras fuentes de materiales. Las recetas, sus fuentes y las correcciones comprobadas están documentadas para continuar el trabajo sin sustituirlas por reglas modernas.
+
+Una comprobación directa en `BetaPlusPlus.exe`, VA `004c20a2`, corrigió la sopa de hongos: se fabrica con dos patrones verticales, no con la receta moderna sin forma. El mismo constructor confirma galletas con cacao de metadato 3 y salida de ocho. Los 104 iconos de objetos y sus nombres se recuperaron del constructor y `en_US.lang`; véase [data/item-icons-beta-1.7.3.json](data/item-icons-beta-1.7.3.json).
+
+La pausa abre las pantallas de **16 logros** y **estadísticas**. Se guardan requisitos previos, contadores de tiempo simulado, distancia recorrida, saltos, muertes, daño, animales eliminados, bloques minados/colocados y objetos fabricados, además de contadores por objeto. Los logros que necesitan funciones todavía no portadas permanecen bloqueados; mostrar el árbol no implica que todos sean alcanzables.
+
+## Opciones y texturas
+
+Se guardan distancia visual (8/16/24 bloques), sensibilidad, inversión del ratón y selección de dificultad. La dificultad queda persistida, pero todavía no hay enemigos a los que aplicar sus reglas.
+
+**Mods and Texture Packs** permite restaurar el atlas predeterminado o cargar `CUSTOM.DAT`, con formato `MCATLAS2` generado por `dos/tools/atlas.py`. Cambia el atlas y la paleta VGA. No carga paquetes ZIP ni mods. **Multiplayer** muestra explícitamente que aún no hay conexión de red.
+
+Las imágenes de GUI/skins se preparan como `GUI.DAT` usando la paleta del atlas. VGA reduce la precisión a seis bits por canal; la conversión de GUI aproxima algunos colores y la transparencia parcial del terreno usa tramado. Los PNG originales permanecen intactos. No se ofrece equivalencia visual exacta.
+
+## Guardados
+
+- `WORLDS.DAT`: nombres y semillas de los tres espacios.
+- `WORLD1.SAV`, `WORLD2.SAV`, `WORLD3.SAV`: bloques y posición del jugador; conserva formato de bloques del primer prototipo.
+- `WORLD1.PLY`, etc.: inventario, vida, desgaste, cuadrícula pendiente, animales, logros y estadísticas, con checksum completo del registro.
+- `.BAK`: copia anterior de bloques; `.PBK`: copia anterior del perfil. Un perfil corrupto intenta recuperar su `.PBK`; si ambos están corruptos se rechaza la carga del mundo.
+- `OPTIONS.DAT`: opciones del usuario.
+
+Los dos archivos de cada mundo deben copiarse juntos para transportar el estado completo. Son guardados nuevos para DOS: no se importan todavía las partidas `.minecraft/*.mcr`, y el menú no importa automáticamente el `WORLD.SAV` único del prototipo anterior. No se sobrescriben esos archivos originales.
+
+## Compilar y probar
+
+Requiere Python 3, Pillow y DJGPP GCC 12.2 de 64 bits para Linux. El runtime DOS no requiere Python ni Pillow.
 
 ```sh
+python3 -m venv /tmp/mcdos-python
+. /tmp/mcdos-python/bin/activate
+python -m pip install -r dos/tools/requirements.txt
 export DJGPP_PREFIX=/ruta/a/djgpp/bin/i586-pc-msdosdjgpp-
-python3 dos/tools/build.py
-python3 dos/tools/fetch_runtime.py
+python dos/tools/build.py
+python dos/tools/fetch_runtime.py
+python dos/tools/build.py --host
+(cd dos/build/host && ./mcdos-host --test)
 ```
 
-El compilador usado está disponible en [build-djgpp v3.4](https://github.com/andrewwutw/build-djgpp/releases/tag/v3.4), archivo `djgpp-linux64-gcc1220.tar.bz2`. SHA-256 del archivo utilizado: `8464f17017d6ab1b2bb2df4ed82357b5bf692e6e2b7fee37e315638f3d505f00`. No se integra el toolchain en el repositorio. La compilación usa `-march=pentium`, sin RTTI ni excepciones C++.
+El compilador es [build-djgpp v3.4](https://github.com/andrewwutw/build-djgpp/releases/tag/v3.4), `djgpp-linux64-gcc1220.tar.bz2`, SHA-256 `8464f17017d6ab1b2bb2df4ed82357b5bf692e6e2b7fee37e315638f3d505f00`. Se usa `-march=pentium`, sin RTTI ni excepciones. [THIRD_PARTY.md](THIRD_PARTY.md) documenta CWSDPMI.
 
-La compilación produce `dos/build/dos/MCDOS.EXE` y `ATLAS.DAT`. `fetch_runtime.py` obtiene CWSDPMI desde una revisión fija de DOSBox-X y verifica su SHA-256. Véase [THIRD_PARTY.md](THIRD_PARTY.md).
-
-## Validar
+Para validar en DOSBox 0.74-3 instalado:
 
 ```sh
-python3 dos/tools/build.py --host
-cd dos/build/host
-./mcdos-host --test
-cat RESULT.TXT
+python dos/tests/run_dosbox.py
 ```
 
-Para repetir la prueba DOS, desde `dos/build/dos`, con DOSBox 0.74-3 instalado:
+En el entorno cloud preparado, puede usarse `--docker-image minecraft-dos-test:local`. El runner borra resultados anteriores, ejecuta el EXE real con 6 MB totales y sin swap, comprueba resultados del motor y funcionalidades, dibuja cuatro cuadros VGA y compara la memoria de video. Las pruebas de guardado y menús trabajan en un directorio temporal propio, sin borrar mundos del jugador. `--smoke` escribe solamente `SMOKE.SAV/PLY`.
 
-```sh
-dosbox -conf ../../tests/dosbox.conf
-```
+Después de validar, `python dos/tools/package.py` prepara el ZIP completo. Los resultados, hashes y capturas de esta compilación están en [validation](validation/). Se comprobó en emulación; **no hay todavía una medición en Pentium físico ni una instalación real de MS-DOS 6.22**. Instalar la IRQ del teclado no prueba por sí solo pulsaciones físicas de todos los dispositivos.
 
-Revisa `RESULT.TXT`, `SMOKE.TXT` y `EXIT.TXT` de esa ejecución. La prueba `--test` comprueba terreno, límites, colisiones, salto/aterrizaje, selección de bloques, romper/colocar, rechazo de colocación dentro del jugador y guardado/recuperación/rechazo de corrupción. `--smoke` instala/restaura la IRQ del teclado, establece VGA, dibuja cuatro cuadros, compara los 64.000 bytes de VRAM con el framebuffer, guarda el mundo y sale. No simula pulsaciones físicas de teclado o ratón.
+## Trabajo pendiente
 
-El objeto del juego ocupa 607.648 bytes: mundo 524.288, atlas 65.536, framebuffer interno 16.000, paleta, alpha, tablas de sombreado y estado. El framebuffer VGA añade 64.000 bytes. Estas cifras no incluyen código, pila, biblioteca C, DOS o DPMI. El total se verifica ejecutando el programa en el entorno limitado; no se deduce solo de estas sumas. Los resultados de esta máquina están en [validation](validation/).
+Se mantienen pendientes los modelos/animaciones originales de animales y Steve, armadura funcional, objetos tirados, enemigos/combate completo, minerales, fundición, cultivos, iluminación completa, agua/lava, ciclos de día/noche, redstone, audio original, red, carga de mods, paquetes completos de texturas y compatibilidad con mundos Windows. El catálogo de recetas y las pantallas son una base para continuar ese port, no evidencia de que esos sistemas ya funcionen.

@@ -1,6 +1,7 @@
 #ifndef DOS_ENGINE_HPP
 #define DOS_ENGINE_HPP
 #include <stdint.h>
+#include "progress.hpp"
 
 namespace mc {
 enum { WORLD_SIZE=64, WORLD_HEIGHT=128, CHUNK_SIZE=32768,
@@ -8,12 +9,15 @@ enum { WORLD_SIZE=64, WORLD_HEIGHT=128, CHUNK_SIZE=32768,
 enum Block { Air=0, Stone=1, Grass=2, Dirt=3, Cobble=4, Planks=5,
              Sand=12, Log=17, Leaves=18, Glass=20 };
 struct Player { float x,y,z,yaw,pitch,vy; bool grounded; };
-struct Hit { bool found; int x,y,z,nx,ny,nz; uint8_t block,color; };
+struct Hit { bool found; int x,y,z,nx,ny,nz; uint8_t block,color; int distance; };
 struct Memory { uint32_t world, atlas, palette, frame, shade; };
 class Game {
 public:
     uint8_t blocks[WORLD_BYTES], atlas[65536], palette[768], alpha[256];
     uint8_t frame[WIDTH*HEIGHT], shade[3][256];
+    uint16_t depth[WIDTH*HEIGHT];
+    Progress progress;
+    int viewDistance;
     Player player;
     uint8_t selected;
     Game();
@@ -30,7 +34,11 @@ public:
     Hit trace(int dx,int dy,int dz,int maxDistance=24,bool sample=false) const;
     Hit target() const;
     bool mine();
+    float breakingTime(const Hit& hit) const;
     bool place();
+    void updateAnimals(float dt);
+    bool attackAnimal(bool interact=false);
+    void respawn();
     void render();
     static Memory memory();
 private:

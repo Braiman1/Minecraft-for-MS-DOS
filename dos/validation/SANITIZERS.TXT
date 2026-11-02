@@ -1,0 +1,3 @@
+Host build: g++ -std=gnu++11 -O1 -g -fsanitize=address,undefined -fno-omit-frame-pointer
+Executed mcdos-asan --test outside the ptrace sandbox. Exit 0; no ASan, UBSan or LSan findings.
+Engine checks: 25; feature checks: 93; failures: 0.

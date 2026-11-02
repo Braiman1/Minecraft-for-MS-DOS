@@ -13,10 +13,14 @@ readme = '''MINECRAFT DOS - INITIAL PLAYABLE RECONSTRUCTION
 Pentium, VGA, 6 MB RAM. Not a complete port of the Windows game.
 Run PLAY.BAT. CWSDPMI -p -s- disables disk swapping.
 WASD: move. Arrows/mouse: look. Space: jump.
-X/left click: break. C/right click: place. 1-7: select block.
-F5: save. Escape: save and exit. Mouse driver optional.
-WORLD.SAV is a new DOS format; WORLD.BAK retains the previous save.
-Finite world, no survival inventory/crafting/mobs/redstone/audio/network yet.
+X/left click: break/attack. C/right click: place/use. 1-9: hotbar.
+E: inventory. R: eat. F5: save. Escape: pause. Mouse driver optional.
+Menu: Singleplayer, Multiplayer notice, Texture Packs and Options.
+Three finite world slots; WORLD1.SAV/PLY etc. Backups: BAK/PBK.
+Inventory: TAB select, ENTER move, R split/place one, C craft.
+151 reconstructed Beta recipes; health, inventory, achievements, statistics.
+Basic passive animals use sprites, not the original 3D models.
+Still no hostile mobs, smelting/farming/redstone/original audio/network/mod loader.
 See dos/README.md in the source repository for limitations and validation.
 
 CWSDPMI Copyright (C) 1995-2010 Charles W Sandmann.
@@ -26,7 +30,7 @@ https://github.com/jayschwa/cwsdpmi/tree/ed2b39b48f12de16fc01aa2415a6b3c5b9531ab
 Author's distribution: http://sandmann.dotster.com/cwsdpmi/
 '''
 with zipfile.ZipFile(dist / 'MCDOS.ZIP', 'w', zipfile.ZIP_DEFLATED) as z:
-    for name in ['MCDOS.EXE', 'ATLAS.DAT', 'CWSDPMI.EXE']:
+    for name in ['MCDOS.EXE', 'ATLAS.DAT', 'GUI.DAT', 'CWSDPMI.EXE']:
         z.write(build / name, name)
     for name in ['COPYING', 'COPYING.CWS', 'CWSDPMI.DOC']:
         z.write(root / 'third_party/cwsdpmi' / name, name)
@@ -34,7 +38,7 @@ with zipfile.ZipFile(dist / 'MCDOS.ZIP', 'w', zipfile.ZIP_DEFLATED) as z:
     z.writestr('README.TXT', readme.replace('\n', '\r\n'))
 with zipfile.ZipFile(dist / 'MCDOS.ZIP') as z:
     assert z.testzip() is None
-files = ['MCDOS.EXE', 'ATLAS.DAT', 'CWSDPMI.EXE']
+files = ['MCDOS.EXE', 'ATLAS.DAT', 'GUI.DAT', 'CWSDPMI.EXE']
 (dist / 'SHA256SUMS').write_text(''.join(hashlib.sha256((build / f).read_bytes()).hexdigest() + '  ' + f + '\n' for f in files)
                               + hashlib.sha256((dist / 'MCDOS.ZIP').read_bytes()).hexdigest() + '  MCDOS.ZIP\n')
 print(dist / 'MCDOS.ZIP')

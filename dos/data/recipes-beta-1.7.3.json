@@ -1,0 +1,2641 @@
+{
+  "version": "Beta 1.7.3",
+  "reference_binary_sha256": "d9c61755cdcf078dd0ec19bdbbc042a6d1977f9cb024d516573f7fef80f0e121",
+  "reference_functions": [
+    "004431a4 (registry initialization)",
+    "0044288c (shaped recipe registration)",
+    "ShapedRecipes and ShapelessRecipes recovered class exports"
+  ],
+  "status": "Manually reconstructed catalogue; individual entries require continuing parity verification against binary. Recipes do not imply ingredient obtainability or all block behaviors are implemented.",
+  "recipes": [
+    {
+      "name": "Wooden planks",
+      "kind": "shaped",
+      "pattern": [
+        "#"
+      ],
+      "ingredients": {
+        "#": 17
+      },
+      "output": {
+        "id": 5,
+        "count": 4,
+        "data": 0
+      }
+    },
+    {
+      "name": "Sticks",
+      "kind": "shaped",
+      "pattern": [
+        "#",
+        "#"
+      ],
+      "ingredients": {
+        "#": 5
+      },
+      "output": {
+        "id": 280,
+        "count": 4,
+        "data": 0
+      }
+    },
+    {
+      "name": "Crafting table",
+      "kind": "shaped",
+      "pattern": [
+        "##",
+        "##"
+      ],
+      "ingredients": {
+        "#": 5
+      },
+      "output": {
+        "id": 58,
+        "count": 1,
+        "data": 0
+      }
+    },
+    {
+      "name": "Chest",
+      "kind": "shaped",
+      "pattern": [
+        "###",
+        "# #",
+        "###"
+      ],
+      "ingredients": {
+        "#": 5
+      },
+      "output": {
+        "id": 54,
+        "count": 1,
+        "data": 0
+      }
+    },
+    {
+      "name": "Furnace",
+      "kind": "shaped",
+      "pattern": [
+        "###",
+        "# #",
+        "###"
+      ],
+      "ingredients": {
+        "#": 4
+      },
+      "output": {
+        "id": 61,
+        "count": 1,
+        "data": 0
+      }
+    },
+    {
+      "name": "Coal torch",
+      "kind": "shaped",
+      "pattern": [
+        "C",
+        "S"
+      ],
+      "ingredients": {
+        "C": {
+          "id": 263,
+          "data": 0
+        },
+        "S": 280
+      },
+      "output": {
+        "id": 50,
+        "count": 4,
+        "data": 0
+      }
+    },
+    {
+      "name": "Charcoal torch",
+      "kind": "shaped",
+      "pattern": [
+        "C",
+        "S"
+      ],
+      "ingredients": {
+        "C": {
+          "id": 263,
+          "data": 1
+        },
+        "S": 280
+      },
+      "output": {
+        "id": 50,
+        "count": 4,
+        "data": 0
+      }
+    },
+    {
+      "name": "Ladder",
+      "kind": "shaped",
+      "pattern": [
+        "# #",
+        "###",
+        "# #"
+      ],
+      "ingredients": {
+        "#": 280
+      },
+      "output": {
+        "id": 65,
+        "count": 2,
+        "data": 0
+      }
+    },
+    {
+      "name": "Wooden door",
+      "kind": "shaped",
+      "pattern": [
+        "##",
+        "##",
+        "##"
+      ],
+      "ingredients": {
+        "#": 5
+      },
+      "output": {
+        "id": 324,
+        "count": 1,
+        "data": 0
+      }
+    },
+    {
+      "name": "Iron door",
+      "kind": "shaped",
+      "pattern": [
+        "##",
+        "##",
+        "##"
+      ],
+      "ingredients": {
+        "#": 265
+      },
+      "output": {
+        "id": 330,
+        "count": 1,
+        "data": 0
+      }
+    },
+    {
+      "name": "Trapdoor",
+      "kind": "shaped",
+      "pattern": [
+        "###",
+        "###"
+      ],
+      "ingredients": {
+        "#": 5
+      },
+      "output": {
+        "id": 96,
+        "count": 2,
+        "data": 0
+      }
+    },
+    {
+      "name": "Fence",
+      "kind": "shaped",
+      "pattern": [
+        "###",
+        "###"
+      ],
+      "ingredients": {
+        "#": 280
+      },
+      "output": {
+        "id": 85,
+        "count": 2,
+        "data": 0
+      }
+    },
+    {
+      "name": "Wooden stairs",
+      "kind": "shaped",
+      "pattern": [
+        "#  ",
+        "## ",
+        "###"
+      ],
+      "ingredients": {
+        "#": 5
+      },
+      "output": {
+        "id": 53,
+        "count": 4,
+        "data": 0
+      }
+    },
+    {
+      "name": "Cobblestone stairs",
+      "kind": "shaped",
+      "pattern": [
+        "#  ",
+        "## ",
+        "###"
+      ],
+      "ingredients": {
+        "#": 4
+      },
+      "output": {
+        "id": 67,
+        "count": 4,
+        "data": 0
+      }
+    },
+    {
+      "name": "Stone slabs",
+      "kind": "shaped",
+      "pattern": [
+        "###"
+      ],
+      "ingredients": {
+        "#": 1
+      },
+      "output": {
+        "id": 44,
+        "count": 3,
+        "data": 0
+      }
+    },
+    {
+      "name": "Sandstone slabs",
+      "kind": "shaped",
+      "pattern": [
+        "###"
+      ],
+      "ingredients": {
+        "#": 24
+      },
+      "output": {
+        "id": 44,
+        "count": 3,
+        "data": 1
+      }
+    },
+    {
+      "name": "Wooden slabs",
+      "kind": "shaped",
+      "pattern": [
+        "###"
+      ],
+      "ingredients": {
+        "#": 5
+      },
+      "output": {
+        "id": 44,
+        "count": 3,
+        "data": 2
+      }
+    },
+    {
+      "name": "Cobblestone slabs",
+      "kind": "shaped",
+      "pattern": [
+        "###"
+      ],
+      "ingredients": {
+        "#": 4
+      },
+      "output": {
+        "id": 44,
+        "count": 3,
+        "data": 3
+      }
+    },
+    {
+      "name": "Sandstone",
+      "kind": "shaped",
+      "pattern": [
+        "##",
+        "##"
+      ],
+      "ingredients": {
+        "#": 12
+      },
+      "output": {
+        "id": 24,
+        "count": 1,
+        "data": 0
+      }
+    },
+    {
+      "name": "Bricks",
+      "kind": "shaped",
+      "pattern": [
+        "##",
+        "##"
+      ],
+      "ingredients": {
+        "#": 336
+      },
+      "output": {
+        "id": 45,
+        "count": 1,
+        "data": 0
+      }
+    },
+    {
+      "name": "Snow block",
+      "kind": "shaped",
+      "pattern": [
+        "##",
+        "##"
+      ],
+      "ingredients": {
+        "#": 332
+      },
+      "output": {
+        "id": 80,
+        "count": 1,
+        "data": 0
+      }
+    },
+    {
+      "name": "Clay block",
+      "kind": "shaped",
+      "pattern": [
+        "##",
+        "##"
+      ],
+      "ingredients": {
+        "#": 337
+      },
+      "output": {
+        "id": 82,
+        "count": 1,
+        "data": 0
+      }
+    },
+    {
+      "name": "Glowstone",
+      "kind": "shaped",
+      "pattern": [
+        "##",
+        "##"
+      ],
+      "ingredients": {
+        "#": 348
+      },
+      "output": {
+        "id": 89,
+        "count": 1,
+        "data": 0
+      }
+    },
+    {
+      "name": "Wool",
+      "kind": "shaped",
+      "pattern": [
+        "##",
+        "##"
+      ],
+      "ingredients": {
+        "#": 287
+      },
+      "output": {
+        "id": 35,
+        "count": 1,
+        "data": 0
+      }
+    },
+    {
+      "name": "Iron block",
+      "kind": "shaped",
+      "pattern": [
+        "###",
+        "###",
+        "###"
+      ],
+      "ingredients": {
+        "#": 265
+      },
+      "output": {
+        "id": 42,
+        "count": 1,
+        "data": 0
+      }
+    },
+    {
+      "name": "Iron block unpack",
+      "kind": "shapeless",
+      "ingredients": [
+        42
+      ],
+      "output": {
+        "id": 265,
+        "count": 9,
+        "data": 0
+      }
+    },
+    {
+      "name": "Gold block",
+      "kind": "shaped",
+      "pattern": [
+        "###",
+        "###",
+        "###"
+      ],
+      "ingredients": {
+        "#": 266
+      },
+      "output": {
+        "id": 41,
+        "count": 1,
+        "data": 0
+      }
+    },
+    {
+      "name": "Gold block unpack",
+      "kind": "shapeless",
+      "ingredients": [
+        41
+      ],
+      "output": {
+        "id": 266,
+        "count": 9,
+        "data": 0
+      }
+    },
+    {
+      "name": "Diamond block",
+      "kind": "shaped",
+      "pattern": [
+        "###",
+        "###",
+        "###"
+      ],
+      "ingredients": {
+        "#": 264
+      },
+      "output": {
+        "id": 57,
+        "count": 1,
+        "data": 0
+      }
+    },
+    {
+      "name": "Diamond block unpack",
+      "kind": "shapeless",
+      "ingredients": [
+        57
+      ],
+      "output": {
+        "id": 264,
+        "count": 9,
+        "data": 0
+      }
+    },
+    {
+      "name": "Lapis block",
+      "kind": "shaped",
+      "pattern": [
+        "###",
+        "###",
+        "###"
+      ],
+      "ingredients": {
+        "#": {
+          "id": 351,
+          "data": 4
+        }
+      },
+      "output": {
+        "id": 22,
+        "count": 1,
+        "data": 0
+      }
+    },
+    {
+      "name": "Lapis block unpack",
+      "kind": "shapeless",
+      "ingredients": [
+        22
+      ],
+      "output": {
+        "id": 351,
+        "count": 9,
+        "data": 4
+      }
+    },
+    {
+      "name": "Wooden pickaxe",
+      "kind": "shaped",
+      "pattern": [
+        "MMM",
+        " S ",
+        " S "
+      ],
+      "ingredients": {
+        "M": 5,
+        "S": 280
+      },
+      "output": {
+        "id": 270,
+        "count": 1,
+        "data": 0
+      }
+    },
+    {
+      "name": "Wooden shovel",
+      "kind": "shaped",
+      "pattern": [
+        "M",
+        "S",
+        "S"
+      ],
+      "ingredients": {
+        "M": 5,
+        "S": 280
+      },
+      "output": {
+        "id": 269,
+        "count": 1,
+        "data": 0
+      }
+    },
+    {
+      "name": "Wooden axe",
+      "kind": "shaped",
+      "pattern": [
+        "MM",
+        "MS",
+        " S"
+      ],
+      "ingredients": {
+        "M": 5,
+        "S": 280
+      },
+      "output": {
+        "id": 271,
+        "count": 1,
+        "data": 0
+      }
+    },
+    {
+      "name": "Wooden hoe",
+      "kind": "shaped",
+      "pattern": [
+        "MM",
+        " S",
+        " S"
+      ],
+      "ingredients": {
+        "M": 5,
+        "S": 280
+      },
+      "output": {
+        "id": 290,
+        "count": 1,
+        "data": 0
+      }
+    },
+    {
+      "name": "Wooden sword",
+      "kind": "shaped",
+      "pattern": [
+        "M",
+        "M",
+        "S"
+      ],
+      "ingredients": {
+        "M": 5,
+        "S": 280
+      },
+      "output": {
+        "id": 268,
+        "count": 1,
+        "data": 0
+      }
+    },
+    {
+      "name": "Stone pickaxe",
+      "kind": "shaped",
+      "pattern": [
+        "MMM",
+        " S ",
+        " S "
+      ],
+      "ingredients": {
+        "M": 4,
+        "S": 280
+      },
+      "output": {
+        "id": 274,
+        "count": 1,
+        "data": 0
+      }
+    },
+    {
+      "name": "Stone shovel",
+      "kind": "shaped",
+      "pattern": [
+        "M",
+        "S",
+        "S"
+      ],
+      "ingredients": {
+        "M": 4,
+        "S": 280
+      },
+      "output": {
+        "id": 273,
+        "count": 1,
+        "data": 0
+      }
+    },
+    {
+      "name": "Stone axe",
+      "kind": "shaped",
+      "pattern": [
+        "MM",
+        "MS",
+        " S"
+      ],
+      "ingredients": {
+        "M": 4,
+        "S": 280
+      },
+      "output": {
+        "id": 275,
+        "count": 1,
+        "data": 0
+      }
+    },
+    {
+      "name": "Stone hoe",
+      "kind": "shaped",
+      "pattern": [
+        "MM",
+        " S",
+        " S"
+      ],
+      "ingredients": {
+        "M": 4,
+        "S": 280
+      },
+      "output": {
+        "id": 291,
+        "count": 1,
+        "data": 0
+      }
+    },
+    {
+      "name": "Stone sword",
+      "kind": "shaped",
+      "pattern": [
+        "M",
+        "M",
+        "S"
+      ],
+      "ingredients": {
+        "M": 4,
+        "S": 280
+      },
+      "output": {
+        "id": 272,
+        "count": 1,
+        "data": 0
+      }
+    },
+    {
+      "name": "Iron pickaxe",
+      "kind": "shaped",
+      "pattern": [
+        "MMM",
+        " S ",
+        " S "
+      ],
+      "ingredients": {
+        "M": 265,
+        "S": 280
+      },
+      "output": {
+        "id": 257,
+        "count": 1,
+        "data": 0
+      }
+    },
+    {
+      "name": "Iron shovel",
+      "kind": "shaped",
+      "pattern": [
+        "M",
+        "S",
+        "S"
+      ],
+      "ingredients": {
+        "M": 265,
+        "S": 280
+      },
+      "output": {
+        "id": 256,
+        "count": 1,
+        "data": 0
+      }
+    },
+    {
+      "name": "Iron axe",
+      "kind": "shaped",
+      "pattern": [
+        "MM",
+        "MS",
+        " S"
+      ],
+      "ingredients": {
+        "M": 265,
+        "S": 280
+      },
+      "output": {
+        "id": 258,
+        "count": 1,
+        "data": 0
+      }
+    },
+    {
+      "name": "Iron hoe",
+      "kind": "shaped",
+      "pattern": [
+        "MM",
+        " S",
+        " S"
+      ],
+      "ingredients": {
+        "M": 265,
+        "S": 280
+      },
+      "output": {
+        "id": 292,
+        "count": 1,
+        "data": 0
+      }
+    },
+    {
+      "name": "Iron sword",
+      "kind": "shaped",
+      "pattern": [
+        "M",
+        "M",
+        "S"
+      ],
+      "ingredients": {
+        "M": 265,
+        "S": 280
+      },
+      "output": {
+        "id": 267,
+        "count": 1,
+        "data": 0
+      }
+    },
+    {
+      "name": "Diamond pickaxe",
+      "kind": "shaped",
+      "pattern": [
+        "MMM",
+        " S ",
+        " S "
+      ],
+      "ingredients": {
+        "M": 264,
+        "S": 280
+      },
+      "output": {
+        "id": 278,
+        "count": 1,
+        "data": 0
+      }
+    },
+    {
+      "name": "Diamond shovel",
+      "kind": "shaped",
+      "pattern": [
+        "M",
+        "S",
+        "S"
+      ],
+      "ingredients": {
+        "M": 264,
+        "S": 280
+      },
+      "output": {
+        "id": 277,
+        "count": 1,
+        "data": 0
+      }
+    },
+    {
+      "name": "Diamond axe",
+      "kind": "shaped",
+      "pattern": [
+        "MM",
+        "MS",
+        " S"
+      ],
+      "ingredients": {
+        "M": 264,
+        "S": 280
+      },
+      "output": {
+        "id": 279,
+        "count": 1,
+        "data": 0
+      }
+    },
+    {
+      "name": "Diamond hoe",
+      "kind": "shaped",
+      "pattern": [
+        "MM",
+        " S",
+        " S"
+      ],
+      "ingredients": {
+        "M": 264,
+        "S": 280
+      },
+      "output": {
+        "id": 293,
+        "count": 1,
+        "data": 0
+      }
+    },
+    {
+      "name": "Diamond sword",
+      "kind": "shaped",
+      "pattern": [
+        "M",
+        "M",
+        "S"
+      ],
+      "ingredients": {
+        "M": 264,
+        "S": 280
+      },
+      "output": {
+        "id": 276,
+        "count": 1,
+        "data": 0
+      }
+    },
+    {
+      "name": "Golden pickaxe",
+      "kind": "shaped",
+      "pattern": [
+        "MMM",
+        " S ",
+        " S "
+      ],
+      "ingredients": {
+        "M": 266,
+        "S": 280
+      },
+      "output": {
+        "id": 285,
+        "count": 1,
+        "data": 0
+      }
+    },
+    {
+      "name": "Golden shovel",
+      "kind": "shaped",
+      "pattern": [
+        "M",
+        "S",
+        "S"
+      ],
+      "ingredients": {
+        "M": 266,
+        "S": 280
+      },
+      "output": {
+        "id": 284,
+        "count": 1,
+        "data": 0
+      }
+    },
+    {
+      "name": "Golden axe",
+      "kind": "shaped",
+      "pattern": [
+        "MM",
+        "MS",
+        " S"
+      ],
+      "ingredients": {
+        "M": 266,
+        "S": 280
+      },
+      "output": {
+        "id": 286,
+        "count": 1,
+        "data": 0
+      }
+    },
+    {
+      "name": "Golden hoe",
+      "kind": "shaped",
+      "pattern": [
+        "MM",
+        " S",
+        " S"
+      ],
+      "ingredients": {
+        "M": 266,
+        "S": 280
+      },
+      "output": {
+        "id": 294,
+        "count": 1,
+        "data": 0
+      }
+    },
+    {
+      "name": "Golden sword",
+      "kind": "shaped",
+      "pattern": [
+        "M",
+        "M",
+        "S"
+      ],
+      "ingredients": {
+        "M": 266,
+        "S": 280
+      },
+      "output": {
+        "id": 283,
+        "count": 1,
+        "data": 0
+      }
+    },
+    {
+      "name": "Leather helmet",
+      "kind": "shaped",
+      "pattern": [
+        "###",
+        "# #"
+      ],
+      "ingredients": {
+        "#": 334
+      },
+      "output": {
+        "id": 298,
+        "count": 1,
+        "data": 0
+      }
+    },
+    {
+      "name": "Leather chestplate",
+      "kind": "shaped",
+      "pattern": [
+        "# #",
+        "###",
+        "###"
+      ],
+      "ingredients": {
+        "#": 334
+      },
+      "output": {
+        "id": 299,
+        "count": 1,
+        "data": 0
+      }
+    },
+    {
+      "name": "Leather leggings",
+      "kind": "shaped",
+      "pattern": [
+        "###",
+        "# #",
+        "# #"
+      ],
+      "ingredients": {
+        "#": 334
+      },
+      "output": {
+        "id": 300,
+        "count": 1,
+        "data": 0
+      }
+    },
+    {
+      "name": "Leather boots",
+      "kind": "shaped",
+      "pattern": [
+        "# #",
+        "# #"
+      ],
+      "ingredients": {
+        "#": 334
+      },
+      "output": {
+        "id": 301,
+        "count": 1,
+        "data": 0
+      }
+    },
+    {
+      "name": "Chain helmet",
+      "kind": "shaped",
+      "pattern": [
+        "###",
+        "# #"
+      ],
+      "ingredients": {
+        "#": 51
+      },
+      "output": {
+        "id": 302,
+        "count": 1,
+        "data": 0
+      }
+    },
+    {
+      "name": "Chain chestplate",
+      "kind": "shaped",
+      "pattern": [
+        "# #",
+        "###",
+        "###"
+      ],
+      "ingredients": {
+        "#": 51
+      },
+      "output": {
+        "id": 303,
+        "count": 1,
+        "data": 0
+      }
+    },
+    {
+      "name": "Chain leggings",
+      "kind": "shaped",
+      "pattern": [
+        "###",
+        "# #",
+        "# #"
+      ],
+      "ingredients": {
+        "#": 51
+      },
+      "output": {
+        "id": 304,
+        "count": 1,
+        "data": 0
+      }
+    },
+    {
+      "name": "Chain boots",
+      "kind": "shaped",
+      "pattern": [
+        "# #",
+        "# #"
+      ],
+      "ingredients": {
+        "#": 51
+      },
+      "output": {
+        "id": 305,
+        "count": 1,
+        "data": 0
+      }
+    },
+    {
+      "name": "Iron helmet",
+      "kind": "shaped",
+      "pattern": [
+        "###",
+        "# #"
+      ],
+      "ingredients": {
+        "#": 265
+      },
+      "output": {
+        "id": 306,
+        "count": 1,
+        "data": 0
+      }
+    },
+    {
+      "name": "Iron chestplate",
+      "kind": "shaped",
+      "pattern": [
+        "# #",
+        "###",
+        "###"
+      ],
+      "ingredients": {
+        "#": 265
+      },
+      "output": {
+        "id": 307,
+        "count": 1,
+        "data": 0
+      }
+    },
+    {
+      "name": "Iron leggings",
+      "kind": "shaped",
+      "pattern": [
+        "###",
+        "# #",
+        "# #"
+      ],
+      "ingredients": {
+        "#": 265
+      },
+      "output": {
+        "id": 308,
+        "count": 1,
+        "data": 0
+      }
+    },
+    {
+      "name": "Iron boots",
+      "kind": "shaped",
+      "pattern": [
+        "# #",
+        "# #"
+      ],
+      "ingredients": {
+        "#": 265
+      },
+      "output": {
+        "id": 309,
+        "count": 1,
+        "data": 0
+      }
+    },
+    {
+      "name": "Diamond helmet",
+      "kind": "shaped",
+      "pattern": [
+        "###",
+        "# #"
+      ],
+      "ingredients": {
+        "#": 264
+      },
+      "output": {
+        "id": 310,
+        "count": 1,
+        "data": 0
+      }
+    },
+    {
+      "name": "Diamond chestplate",
+      "kind": "shaped",
+      "pattern": [
+        "# #",
+        "###",
+        "###"
+      ],
+      "ingredients": {
+        "#": 264
+      },
+      "output": {
+        "id": 311,
+        "count": 1,
+        "data": 0
+      }
+    },
+    {
+      "name": "Diamond leggings",
+      "kind": "shaped",
+      "pattern": [
+        "###",
+        "# #",
+        "# #"
+      ],
+      "ingredients": {
+        "#": 264
+      },
+      "output": {
+        "id": 312,
+        "count": 1,
+        "data": 0
+      }
+    },
+    {
+      "name": "Diamond boots",
+      "kind": "shaped",
+      "pattern": [
+        "# #",
+        "# #"
+      ],
+      "ingredients": {
+        "#": 264
+      },
+      "output": {
+        "id": 313,
+        "count": 1,
+        "data": 0
+      }
+    },
+    {
+      "name": "Golden helmet",
+      "kind": "shaped",
+      "pattern": [
+        "###",
+        "# #"
+      ],
+      "ingredients": {
+        "#": 266
+      },
+      "output": {
+        "id": 314,
+        "count": 1,
+        "data": 0
+      }
+    },
+    {
+      "name": "Golden chestplate",
+      "kind": "shaped",
+      "pattern": [
+        "# #",
+        "###",
+        "###"
+      ],
+      "ingredients": {
+        "#": 266
+      },
+      "output": {
+        "id": 315,
+        "count": 1,
+        "data": 0
+      }
+    },
+    {
+      "name": "Golden leggings",
+      "kind": "shaped",
+      "pattern": [
+        "###",
+        "# #",
+        "# #"
+      ],
+      "ingredients": {
+        "#": 266
+      },
+      "output": {
+        "id": 316,
+        "count": 1,
+        "data": 0
+      }
+    },
+    {
+      "name": "Golden boots",
+      "kind": "shaped",
+      "pattern": [
+        "# #",
+        "# #"
+      ],
+      "ingredients": {
+        "#": 266
+      },
+      "output": {
+        "id": 317,
+        "count": 1,
+        "data": 0
+      }
+    },
+    {
+      "name": "Bowl",
+      "kind": "shaped",
+      "pattern": [
+        "# #",
+        " # "
+      ],
+      "ingredients": {
+        "#": 5
+      },
+      "output": {
+        "id": 281,
+        "count": 4,
+        "data": 0
+      }
+    },
+    {
+      "name": "Mushroom stew (red above brown)",
+      "kind": "shaped",
+      "pattern": [
+        "Y",
+        "X",
+        "#"
+      ],
+      "ingredients": {
+        "Y": 40,
+        "X": 39,
+        "#": 281
+      },
+      "output": {
+        "id": 282,
+        "count": 1,
+        "data": 0
+      },
+      "evidence": "BetaPlusPlus.exe VA 004c20a2; pattern strings 00890f28/2a/2c"
+    },
+    {
+      "name": "Mushroom stew (brown above red)",
+      "kind": "shaped",
+      "pattern": [
+        "Y",
+        "X",
+        "#"
+      ],
+      "ingredients": {
+        "Y": 39,
+        "X": 40,
+        "#": 281
+      },
+      "output": {
+        "id": 282,
+        "count": 1,
+        "data": 0
+      },
+      "evidence": "BetaPlusPlus.exe VA 004c20a2; pattern strings 00890f28/2a/2c"
+    },
+    {
+      "name": "Bread",
+      "kind": "shaped",
+      "pattern": [
+        "###"
+      ],
+      "ingredients": {
+        "#": 296
+      },
+      "output": {
+        "id": 297,
+        "count": 1,
+        "data": 0
+      }
+    },
+    {
+      "name": "Cookie",
+      "kind": "shaped",
+      "pattern": [
+        "WCW"
+      ],
+      "ingredients": {
+        "W": 296,
+        "C": {
+          "id": 351,
+          "data": 3
+        }
+      },
+      "output": {
+        "id": 357,
+        "count": 8,
+        "data": 0
+      }
+    },
+    {
+      "name": "Cake",
+      "kind": "shaped",
+      "pattern": [
+        "MMM",
+        "SES",
+        "WWW"
+      ],
+      "ingredients": {
+        "M": 335,
+        "S": 353,
+        "E": 344,
+        "W": 296
+      },
+      "output": {
+        "id": 354,
+        "count": 1,
+        "data": 0
+      }
+    },
+    {
+      "name": "Golden apple",
+      "kind": "shaped",
+      "pattern": [
+        "GGG",
+        "GAG",
+        "GGG"
+      ],
+      "ingredients": {
+        "G": 41,
+        "A": 260
+      },
+      "output": {
+        "id": 322,
+        "count": 1,
+        "data": 0
+      }
+    },
+    {
+      "name": "Sign",
+      "kind": "shaped",
+      "pattern": [
+        "###",
+        "###",
+        " S "
+      ],
+      "ingredients": {
+        "#": 5,
+        "S": 280
+      },
+      "output": {
+        "id": 323,
+        "count": 1,
+        "data": 0
+      }
+    },
+    {
+      "name": "Bed",
+      "kind": "shaped",
+      "pattern": [
+        "WWW",
+        "PPP"
+      ],
+      "ingredients": {
+        "W": 35,
+        "P": 5
+      },
+      "output": {
+        "id": 355,
+        "count": 1,
+        "data": 0
+      }
+    },
+    {
+      "name": "Paper",
+      "kind": "shaped",
+      "pattern": [
+        "###"
+      ],
+      "ingredients": {
+        "#": 338
+      },
+      "output": {
+        "id": 339,
+        "count": 3,
+        "data": 0
+      }
+    },
+    {
+      "name": "Book",
+      "kind": "shaped",
+      "pattern": [
+        "#",
+        "#",
+        "#"
+      ],
+      "ingredients": {
+        "#": 339
+      },
+      "output": {
+        "id": 340,
+        "count": 1,
+        "data": 0
+      }
+    },
+    {
+      "name": "Bookshelf",
+      "kind": "shaped",
+      "pattern": [
+        "PPP",
+        "BBB",
+        "PPP"
+      ],
+      "ingredients": {
+        "P": 5,
+        "B": 340
+      },
+      "output": {
+        "id": 47,
+        "count": 1,
+        "data": 0
+      }
+    },
+    {
+      "name": "Painting",
+      "kind": "shaped",
+      "pattern": [
+        "SSS",
+        "SWS",
+        "SSS"
+      ],
+      "ingredients": {
+        "S": 280,
+        "W": 35
+      },
+      "output": {
+        "id": 321,
+        "count": 1,
+        "data": 0
+      }
+    },
+    {
+      "name": "Jukebox",
+      "kind": "shaped",
+      "pattern": [
+        "PPP",
+        "PDP",
+        "PPP"
+      ],
+      "ingredients": {
+        "P": 5,
+        "D": 264
+      },
+      "output": {
+        "id": 84,
+        "count": 1,
+        "data": 0
+      }
+    },
+    {
+      "name": "Note block",
+      "kind": "shaped",
+      "pattern": [
+        "PPP",
+        "PRP",
+        "PPP"
+      ],
+      "ingredients": {
+        "P": 5,
+        "R": 331
+      },
+      "output": {
+        "id": 25,
+        "count": 1,
+        "data": 0
+      }
+    },
+    {
+      "name": "Lever",
+      "kind": "shaped",
+      "pattern": [
+        "S",
+        "C"
+      ],
+      "ingredients": {
+        "S": 280,
+        "C": 4
+      },
+      "output": {
+        "id": 69,
+        "count": 1,
+        "data": 0
+      }
+    },
+    {
+      "name": "Stone button",
+      "kind": "shaped",
+      "pattern": [
+        "#",
+        "#"
+      ],
+      "ingredients": {
+        "#": 1
+      },
+      "output": {
+        "id": 77,
+        "count": 1,
+        "data": 0
+      }
+    },
+    {
+      "name": "Stone pressure plate",
+      "kind": "shaped",
+      "pattern": [
+        "##"
+      ],
+      "ingredients": {
+        "#": 1
+      },
+      "output": {
+        "id": 70,
+        "count": 1,
+        "data": 0
+      }
+    },
+    {
+      "name": "Wood pressure plate",
+      "kind": "shaped",
+      "pattern": [
+        "##"
+      ],
+      "ingredients": {
+        "#": 5
+      },
+      "output": {
+        "id": 72,
+        "count": 1,
+        "data": 0
+      }
+    },
+    {
+      "name": "Redstone torch",
+      "kind": "shaped",
+      "pattern": [
+        "R",
+        "S"
+      ],
+      "ingredients": {
+        "R": 331,
+        "S": 280
+      },
+      "output": {
+        "id": 76,
+        "count": 1,
+        "data": 0
+      }
+    },
+    {
+      "name": "Repeater",
+      "kind": "shaped",
+      "pattern": [
+        "TRT",
+        "SSS"
+      ],
+      "ingredients": {
+        "T": 76,
+        "R": 331,
+        "S": 1
+      },
+      "output": {
+        "id": 356,
+        "count": 1,
+        "data": 0
+      }
+    },
+    {
+      "name": "Piston",
+      "kind": "shaped",
+      "pattern": [
+        "PPP",
+        "CIC",
+        "CRC"
+      ],
+      "ingredients": {
+        "P": 5,
+        "C": 4,
+        "I": 265,
+        "R": 331
+      },
+      "output": {
+        "id": 33,
+        "count": 1,
+        "data": 0
+      }
+    },
+    {
+      "name": "Sticky piston",
+      "kind": "shaped",
+      "pattern": [
+        "S",
+        "P"
+      ],
+      "ingredients": {
+        "S": 341,
+        "P": 33
+      },
+      "output": {
+        "id": 29,
+        "count": 1,
+        "data": 0
+      }
+    },
+    {
+      "name": "Dispenser",
+      "kind": "shaped",
+      "pattern": [
+        "CCC",
+        "CBC",
+        "CRC"
+      ],
+      "ingredients": {
+        "C": 4,
+        "B": 261,
+        "R": 331
+      },
+      "output": {
+        "id": 23,
+        "count": 1,
+        "data": 0
+      }
+    },
+    {
+      "name": "TNT",
+      "kind": "shaped",
+      "pattern": [
+        "GSG",
+        "SGS",
+        "GSG"
+      ],
+      "ingredients": {
+        "G": 289,
+        "S": 12
+      },
+      "output": {
+        "id": 46,
+        "count": 1,
+        "data": 0
+      }
+    },
+    {
+      "name": "Bucket",
+      "kind": "shaped",
+      "pattern": [
+        "I I",
+        " I "
+      ],
+      "ingredients": {
+        "I": 265
+      },
+      "output": {
+        "id": 325,
+        "count": 1,
+        "data": 0
+      }
+    },
+    {
+      "name": "Shears",
+      "kind": "shaped",
+      "pattern": [
+        " I",
+        "I "
+      ],
+      "ingredients": {
+        "I": 265
+      },
+      "output": {
+        "id": 359,
+        "count": 1,
+        "data": 0
+      }
+    },
+    {
+      "name": "Flint and steel",
+      "kind": "shaped",
+      "pattern": [
+        "I ",
+        " F"
+      ],
+      "ingredients": {
+        "I": 265,
+        "F": 318
+      },
+      "output": {
+        "id": 259,
+        "count": 1,
+        "data": 0
+      }
+    },
+    {
+      "name": "Bow",
+      "kind": "shaped",
+      "pattern": [
+        " ST",
+        "S T",
+        " ST"
+      ],
+      "ingredients": {
+        "S": 280,
+        "T": 287
+      },
+      "output": {
+        "id": 261,
+        "count": 1,
+        "data": 0
+      }
+    },
+    {
+      "name": "Arrows",
+      "kind": "shaped",
+      "pattern": [
+        "F",
+        "S",
+        "P"
+      ],
+      "ingredients": {
+        "F": 318,
+        "S": 280,
+        "P": 288
+      },
+      "output": {
+        "id": 262,
+        "count": 4,
+        "data": 0
+      }
+    },
+    {
+      "name": "Fishing rod",
+      "kind": "shaped",
+      "pattern": [
+        "  S",
+        " ST",
+        "S T"
+      ],
+      "ingredients": {
+        "S": 280,
+        "T": 287
+      },
+      "output": {
+        "id": 346,
+        "count": 1,
+        "data": 0
+      }
+    },
+    {
+      "name": "Boat",
+      "kind": "shaped",
+      "pattern": [
+        "P P",
+        "PPP"
+      ],
+      "ingredients": {
+        "P": 5
+      },
+      "output": {
+        "id": 333,
+        "count": 1,
+        "data": 0
+      }
+    },
+    {
+      "name": "Minecart",
+      "kind": "shaped",
+      "pattern": [
+        "I I",
+        "III"
+      ],
+      "ingredients": {
+        "I": 265
+      },
+      "output": {
+        "id": 328,
+        "count": 1,
+        "data": 0
+      }
+    },
+    {
+      "name": "Storage minecart",
+      "kind": "shaped",
+      "pattern": [
+        "C",
+        "M"
+      ],
+      "ingredients": {
+        "C": 54,
+        "M": 328
+      },
+      "output": {
+        "id": 342,
+        "count": 1,
+        "data": 0
+      }
+    },
+    {
+      "name": "Powered minecart",
+      "kind": "shaped",
+      "pattern": [
+        "F",
+        "M"
+      ],
+      "ingredients": {
+        "F": 61,
+        "M": 328
+      },
+      "output": {
+        "id": 343,
+        "count": 1,
+        "data": 0
+      }
+    },
+    {
+      "name": "Rails",
+      "kind": "shaped",
+      "pattern": [
+        "I I",
+        "ISI",
+        "I I"
+      ],
+      "ingredients": {
+        "I": 265,
+        "S": 280
+      },
+      "output": {
+        "id": 66,
+        "count": 16,
+        "data": 0
+      }
+    },
+    {
+      "name": "Powered rails",
+      "kind": "shaped",
+      "pattern": [
+        "G G",
+        "GSG",
+        "GRG"
+      ],
+      "ingredients": {
+        "G": 266,
+        "S": 280,
+        "R": 331
+      },
+      "output": {
+        "id": 27,
+        "count": 6,
+        "data": 0
+      }
+    },
+    {
+      "name": "Detector rails",
+      "kind": "shaped",
+      "pattern": [
+        "I I",
+        "IPI",
+        "IRI"
+      ],
+      "ingredients": {
+        "I": 265,
+        "P": 70,
+        "R": 331
+      },
+      "output": {
+        "id": 28,
+        "count": 6,
+        "data": 0
+      }
+    },
+    {
+      "name": "Compass",
+      "kind": "shaped",
+      "pattern": [
+        " I ",
+        "IRI",
+        " I "
+      ],
+      "ingredients": {
+        "I": 265,
+        "R": 331
+      },
+      "output": {
+        "id": 345,
+        "count": 1,
+        "data": 0
+      }
+    },
+    {
+      "name": "Clock",
+      "kind": "shaped",
+      "pattern": [
+        " G ",
+        "GRG",
+        " G "
+      ],
+      "ingredients": {
+        "G": 266,
+        "R": 331
+      },
+      "output": {
+        "id": 347,
+        "count": 1,
+        "data": 0
+      }
+    },
+    {
+      "name": "Map",
+      "kind": "shaped",
+      "pattern": [
+        "PPP",
+        "PCP",
+        "PPP"
+      ],
+      "ingredients": {
+        "P": 339,
+        "C": 345
+      },
+      "output": {
+        "id": 358,
+        "count": 1,
+        "data": 0
+      }
+    },
+    {
+      "name": "Sugar",
+      "kind": "shapeless",
+      "ingredients": [
+        338
+      ],
+      "output": {
+        "id": 353,
+        "count": 1,
+        "data": 0
+      }
+    },
+    {
+      "name": "Bone meal",
+      "kind": "shapeless",
+      "ingredients": [
+        352
+      ],
+      "output": {
+        "id": 351,
+        "count": 3,
+        "data": 15
+      }
+    },
+    {
+      "name": "Rose red",
+      "kind": "shapeless",
+      "ingredients": [
+        38
+      ],
+      "output": {
+        "id": 351,
+        "count": 2,
+        "data": 1
+      }
+    },
+    {
+      "name": "Dandelion yellow",
+      "kind": "shapeless",
+      "ingredients": [
+        37
+      ],
+      "output": {
+        "id": 351,
+        "count": 2,
+        "data": 11
+      }
+    },
+    {
+      "name": "Dyed wool 0",
+      "kind": "shapeless",
+      "ingredients": [
+        {
+          "id": 35,
+          "data": 0
+        },
+        {
+          "id": 351,
+          "data": 0
+        }
+      ],
+      "output": {
+        "id": 35,
+        "count": 1,
+        "data": 15
+      }
+    },
+    {
+      "name": "Dyed wool 1",
+      "kind": "shapeless",
+      "ingredients": [
+        {
+          "id": 35,
+          "data": 0
+        },
+        {
+          "id": 351,
+          "data": 1
+        }
+      ],
+      "output": {
+        "id": 35,
+        "count": 1,
+        "data": 14
+      }
+    },
+    {
+      "name": "Dyed wool 2",
+      "kind": "shapeless",
+      "ingredients": [
+        {
+          "id": 35,
+          "data": 0
+        },
+        {
+          "id": 351,
+          "data": 2
+        }
+      ],
+      "output": {
+        "id": 35,
+        "count": 1,
+        "data": 13
+      }
+    },
+    {
+      "name": "Dyed wool 3",
+      "kind": "shapeless",
+      "ingredients": [
+        {
+          "id": 35,
+          "data": 0
+        },
+        {
+          "id": 351,
+          "data": 3
+        }
+      ],
+      "output": {
+        "id": 35,
+        "count": 1,
+        "data": 12
+      }
+    },
+    {
+      "name": "Dyed wool 4",
+      "kind": "shapeless",
+      "ingredients": [
+        {
+          "id": 35,
+          "data": 0
+        },
+        {
+          "id": 351,
+          "data": 4
+        }
+      ],
+      "output": {
+        "id": 35,
+        "count": 1,
+        "data": 11
+      }
+    },
+    {
+      "name": "Dyed wool 5",
+      "kind": "shapeless",
+      "ingredients": [
+        {
+          "id": 35,
+          "data": 0
+        },
+        {
+          "id": 351,
+          "data": 5
+        }
+      ],
+      "output": {
+        "id": 35,
+        "count": 1,
+        "data": 10
+      }
+    },
+    {
+      "name": "Dyed wool 6",
+      "kind": "shapeless",
+      "ingredients": [
+        {
+          "id": 35,
+          "data": 0
+        },
+        {
+          "id": 351,
+          "data": 6
+        }
+      ],
+      "output": {
+        "id": 35,
+        "count": 1,
+        "data": 9
+      }
+    },
+    {
+      "name": "Dyed wool 7",
+      "kind": "shapeless",
+      "ingredients": [
+        {
+          "id": 35,
+          "data": 0
+        },
+        {
+          "id": 351,
+          "data": 7
+        }
+      ],
+      "output": {
+        "id": 35,
+        "count": 1,
+        "data": 8
+      }
+    },
+    {
+      "name": "Dyed wool 8",
+      "kind": "shapeless",
+      "ingredients": [
+        {
+          "id": 35,
+          "data": 0
+        },
+        {
+          "id": 351,
+          "data": 8
+        }
+      ],
+      "output": {
+        "id": 35,
+        "count": 1,
+        "data": 7
+      }
+    },
+    {
+      "name": "Dyed wool 9",
+      "kind": "shapeless",
+      "ingredients": [
+        {
+          "id": 35,
+          "data": 0
+        },
+        {
+          "id": 351,
+          "data": 9
+        }
+      ],
+      "output": {
+        "id": 35,
+        "count": 1,
+        "data": 6
+      }
+    },
+    {
+      "name": "Dyed wool 10",
+      "kind": "shapeless",
+      "ingredients": [
+        {
+          "id": 35,
+          "data": 0
+        },
+        {
+          "id": 351,
+          "data": 10
+        }
+      ],
+      "output": {
+        "id": 35,
+        "count": 1,
+        "data": 5
+      }
+    },
+    {
+      "name": "Dyed wool 11",
+      "kind": "shapeless",
+      "ingredients": [
+        {
+          "id": 35,
+          "data": 0
+        },
+        {
+          "id": 351,
+          "data": 11
+        }
+      ],
+      "output": {
+        "id": 35,
+        "count": 1,
+        "data": 4
+      }
+    },
+    {
+      "name": "Dyed wool 12",
+      "kind": "shapeless",
+      "ingredients": [
+        {
+          "id": 35,
+          "data": 0
+        },
+        {
+          "id": 351,
+          "data": 12
+        }
+      ],
+      "output": {
+        "id": 35,
+        "count": 1,
+        "data": 3
+      }
+    },
+    {
+      "name": "Dyed wool 13",
+      "kind": "shapeless",
+      "ingredients": [
+        {
+          "id": 35,
+          "data": 0
+        },
+        {
+          "id": 351,
+          "data": 13
+        }
+      ],
+      "output": {
+        "id": 35,
+        "count": 1,
+        "data": 2
+      }
+    },
+    {
+      "name": "Dyed wool 14",
+      "kind": "shapeless",
+      "ingredients": [
+        {
+          "id": 35,
+          "data": 0
+        },
+        {
+          "id": 351,
+          "data": 14
+        }
+      ],
+      "output": {
+        "id": 35,
+        "count": 1,
+        "data": 1
+      }
+    },
+    {
+      "name": "Dyed wool 15",
+      "kind": "shapeless",
+      "ingredients": [
+        {
+          "id": 35,
+          "data": 0
+        },
+        {
+          "id": 351,
+          "data": 15
+        }
+      ],
+      "output": {
+        "id": 35,
+        "count": 1,
+        "data": 0
+      }
+    },
+    {
+      "name": "Gray",
+      "kind": "shapeless",
+      "ingredients": [
+        {
+          "id": 351,
+          "data": 0
+        },
+        {
+          "id": 351,
+          "data": 15
+        }
+      ],
+      "output": {
+        "id": 351,
+        "count": 2,
+        "data": 8
+      }
+    },
+    {
+      "name": "Light gray",
+      "kind": "shapeless",
+      "ingredients": [
+        {
+          "id": 351,
+          "data": 8
+        },
+        {
+          "id": 351,
+          "data": 15
+        }
+      ],
+      "output": {
+        "id": 351,
+        "count": 2,
+        "data": 7
+      }
+    },
+    {
+      "name": "Light gray (three)",
+      "kind": "shapeless",
+      "ingredients": [
+        {
+          "id": 351,
+          "data": 0
+        },
+        {
+          "id": 351,
+          "data": 15
+        },
+        {
+          "id": 351,
+          "data": 15
+        }
+      ],
+      "output": {
+        "id": 351,
+        "count": 3,
+        "data": 7
+      }
+    },
+    {
+      "name": "Orange",
+      "kind": "shapeless",
+      "ingredients": [
+        {
+          "id": 351,
+          "data": 1
+        },
+        {
+          "id": 351,
+          "data": 11
+        }
+      ],
+      "output": {
+        "id": 351,
+        "count": 2,
+        "data": 14
+      }
+    },
+    {
+      "name": "Pink",
+      "kind": "shapeless",
+      "ingredients": [
+        {
+          "id": 351,
+          "data": 1
+        },
+        {
+          "id": 351,
+          "data": 15
+        }
+      ],
+      "output": {
+        "id": 351,
+        "count": 2,
+        "data": 9
+      }
+    },
+    {
+      "name": "Light blue",
+      "kind": "shapeless",
+      "ingredients": [
+        {
+          "id": 351,
+          "data": 4
+        },
+        {
+          "id": 351,
+          "data": 15
+        }
+      ],
+      "output": {
+        "id": 351,
+        "count": 2,
+        "data": 12
+      }
+    },
+    {
+      "name": "Purple",
+      "kind": "shapeless",
+      "ingredients": [
+        {
+          "id": 351,
+          "data": 4
+        },
+        {
+          "id": 351,
+          "data": 1
+        }
+      ],
+      "output": {
+        "id": 351,
+        "count": 2,
+        "data": 5
+      }
+    },
+    {
+      "name": "Magenta",
+      "kind": "shapeless",
+      "ingredients": [
+        {
+          "id": 351,
+          "data": 5
+        },
+        {
+          "id": 351,
+          "data": 9
+        }
+      ],
+      "output": {
+        "id": 351,
+        "count": 2,
+        "data": 13
+      }
+    },
+    {
+      "name": "Magenta (three)",
+      "kind": "shapeless",
+      "ingredients": [
+        {
+          "id": 351,
+          "data": 4
+        },
+        {
+          "id": 351,
+          "data": 1
+        },
+        {
+          "id": 351,
+          "data": 9
+        }
+      ],
+      "output": {
+        "id": 351,
+        "count": 3,
+        "data": 13
+      }
+    },
+    {
+      "name": "Magenta (four)",
+      "kind": "shapeless",
+      "ingredients": [
+        {
+          "id": 351,
+          "data": 4
+        },
+        {
+          "id": 351,
+          "data": 1
+        },
+        {
+          "id": 351,
+          "data": 1
+        },
+        {
+          "id": 351,
+          "data": 15
+        }
+      ],
+      "output": {
+        "id": 351,
+        "count": 4,
+        "data": 13
+      }
+    },
+    {
+      "name": "Cyan",
+      "kind": "shapeless",
+      "ingredients": [
+        {
+          "id": 351,
+          "data": 4
+        },
+        {
+          "id": 351,
+          "data": 2
+        }
+      ],
+      "output": {
+        "id": 351,
+        "count": 2,
+        "data": 6
+      }
+    },
+    {
+      "name": "Lime",
+      "kind": "shapeless",
+      "ingredients": [
+        {
+          "id": 351,
+          "data": 2
+        },
+        {
+          "id": 351,
+          "data": 15
+        }
+      ],
+      "output": {
+        "id": 351,
+        "count": 2,
+        "data": 10
+      }
+    },
+    {
+      "name": "Jack o lantern",
+      "kind": "shaped",
+      "pattern": [
+        "P",
+        "T"
+      ],
+      "ingredients": {
+        "P": 86,
+        "T": 50
+      },
+      "output": {
+        "id": 91,
+        "count": 1,
+        "data": 0
+      }
+    }
+  ],
+  "confirmed_corrections": [
+    "Mushroom stew is two vertical shaped recipes, not modern shapeless stew; verified at VA 004c20a2.",
+    "Cookies use cocoa dye metadata 3 and yield 8; constructor at VA 004c20a2."
+  ]
+}

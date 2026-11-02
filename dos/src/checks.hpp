@@ -8,7 +8,7 @@
 inline int checkGame(mc::Game& g,FILE* report) {
     int failures=0,checks=0;
 #define CHECK(x) do { ++checks; if(!(x)){fprintf(report,"FAIL line %d: %s\n",__LINE__,#x);++failures;} } while(0)
-    g.generate(42);
+    g.generate(42);g.progress.enabled=false;
     CHECK(sizeof(g)<700000);
     CHECK(mc::Game::index(0,0,0)==0);
     CHECK(mc::Game::index(15,127,15)==32767);
@@ -33,14 +33,14 @@ inline int checkGame(mc::Game& g,FILE* report) {
     g.set(10,11,13,mc::Air);g.set(10,11,11,mc::Stone);
     CHECK(!g.place());CHECK(g.get(10,11,10)==mc::Air);
     // Save/reload edits, then reject a corrupt save without replacing the current world.
-    g.generate(123);g.set(4,80,4,mc::Glass);g.selected=mc::Glass;
-    CHECK(g.save("TEST.SAV"));g.generate(999);CHECK(g.load("TEST.SAV"));
+    g.generate(123);g.progress.enabled=false;g.set(4,80,4,mc::Glass);g.selected=mc::Glass;
+    CHECK(g.save("TEST.SAV"));g.generate(999);g.progress.enabled=false;CHECK(g.load("TEST.SAV"));
     CHECK(g.get(4,80,4)==mc::Glass&&g.selected==mc::Glass);
     FILE* bad=fopen("TEST.SAV","r+b");CHECK(bad!=0);
     if(bad){fseek(bad,100,SEEK_SET);int b=fgetc(bad);fseek(bad,100,SEEK_SET);fputc(b^255,bad);fclose(bad);}
     CHECK(!g.load("TEST.SAV"));CHECK(g.get(4,80,4)==mc::Glass);
-    remove("TEST.SAV");remove("TEST.BAK");remove("TEST.TMP");
-    g.generate(42);g.render();
+    remove("TEST.SAV");remove("TEST.BAK");remove("TEST.TMP");remove("TEST.PLY");remove("TEST.PBK");
+    g.generate(42);g.progress.enabled=false;g.render();
     unsigned different=0;for(int i=1;i<mc::WIDTH*mc::HEIGHT;i++)if(g.frame[i]!=g.frame[0])different++;
     CHECK(different>500);
     fprintf(report,"CHECKS=%d FAILURES=%d GAME_BYTES=%lu\n",checks,failures,(unsigned long)sizeof(g));
