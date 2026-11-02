@@ -100,3 +100,7 @@ El reloj usa los ticks simulados guardados en el perfil, con ciclo de veinte min
 ## Correcciones de modelos y duración
 
 Véase [MODELS.md](MODELS.md): se corrigieron UV por cara, articulaciones, proporciones por especie, lana, Steve y recorte cercano. El ciclo dura 20 minutos (10 día, 1,5 atardecer, 7 noche, 1,5 amanecer), separado del límite de física por cuadro y guardado en el perfil. No se afirma equivalencia completa de modelos o animaciones.
+
+## Inventario, ítems y texto amarillo
+
+Steve sigue al cursor con la cabeza y el cuerpo en el inventario. La mano y el objeto sostenido comparten la transformación del golpe; el bloque se redujo a un tamaño intermedio. Los ítems planos usan una silueta extruida con paredes laterales y conservan la proporción cuadrada de sus píxeles. El catálogo del menú incluye las 226 frases proporcionadas y las cuatro excepciones de fecha del código recuperado, con pulsación e inclinación. El ZIP necesita incluir SPLASHES.TXT. Véanse MODELS.md y las capturas de validation.

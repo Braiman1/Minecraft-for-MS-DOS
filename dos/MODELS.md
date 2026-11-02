@@ -28,3 +28,11 @@ Las pruebas inyectan 1.200 segundos, comprueban fases y guardado, y repiten el a
 ## Pose de primera persona
 
 Se invirtió la orientación para mostrar el puño arriba y la manga hacia el borde inferior, con inclinación hacia el centro. La geometría se proyecta con una cámara local y se restaura la cámara del mundo después. El cambio corresponde únicamente a la pose de referencia: no reemplaza el escenario ni la skin.
+
+## Inventario, unión de la mano y splashes
+
+Steve del inventario orienta el cuerpo con el eje horizontal del cursor, y la cabeza añade giro independiente e inclinación vertical. Las pruebas comparan la región del retrato, excluyendo el cursor.
+
+El brazo y el objeto sostenido comparten ahora el mismo pivote y matriz de transformación. El cubo mide cinco unidades del modelo, aproximadamente un tercio de bloque, y acompaña el golpe. Las herramientas/ítems emplean la silueta del icono original con caras frontales, posteriores y paredes extruidas en los bordes opacos. No son modelos artísticos separados para cada espada/pico: reproducen el estilo de iconos con relieve, con reducción de color de VGA.
+
+Se incluyen las 226 líneas de `assets/title/splashes.txt` sin sustituir el catálogo, junto con las cuatro frases de fecha especial que aparecen en `GuiMainMenu` recuperado (cumpleaños de ez y Notch, Navidad y Año Nuevo). Las fechas usan el reloj local de DOS. La frase se elige al abrir el menú; su tamaño pulsa y se dibuja inclinada en amarillo. Se adaptan los caracteres å/ä/ö a las posiciones de la fuente original. `SPLASHES.TXT` es ahora un archivo necesario del paquete para mostrar este catálogo.

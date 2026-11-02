@@ -17,6 +17,7 @@ out.mkdir(parents=True, exist_ok=True)
 compile_recipes(root)
 convert(root.parent / 'assets/terrain.png', out / 'ATLAS.DAT')
 convert_ui(root,out)
+(out / 'SPLASHES.TXT').write_bytes((root.parent / 'assets/title/splashes.txt').read_bytes())
 compiler = os.environ.get('CXX', 'g++') if args.host else os.environ.get('DJGPP_PREFIX', 'i586-pc-msdosdjgpp-') + 'g++'
 flags = ['-std=gnu++11', '-O2', '-Wall', '-Wextra', '-Wno-misleading-indentation', '-fno-exceptions', '-fno-rtti']
 if not args.host:

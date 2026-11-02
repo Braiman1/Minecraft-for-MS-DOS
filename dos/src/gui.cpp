@@ -8,8 +8,9 @@
 namespace mc {
 static float smaller(float a,float b){return a<b?a:b;}
 static float larger(float a,float b){return a>b?a:b;}
-Gui::Gui(Game& g):game(g),screen(MainMenu),returnScreen(MainMenu),focus(0),world(-1),hot(-1),inventoryFocus(0),craftFocus(0),mouseX(-1),mouseY(-1),sensitivity(50),difficulty(2),invert(false),quit(false),mining(0),attackAnimation(0),dataSize(0),optionDistance(2){
+Gui::Gui(Game& g):game(g),screen(MainMenu),returnScreen(MainMenu),focus(0),world(-1),hot(-1),inventoryFocus(0),craftFocus(0),mouseX(-1),mouseY(-1),sensitivity(50),difficulty(2),invert(false),quit(false),mining(0),attackAnimation(0),uiTime(0),headPitch(0),headYaw(0),dataSize(0),optionDistance(2){
  memset(previousX,0,sizeof previousX);memset(previousZ,0,sizeof previousZ);memset(walkPhase,0,sizeof walkPhase);memset(walkAmount,0,sizeof walkAmount);
+ splashCount=0;splashIndex=0;FILE* splashFile=fopen("SPLASHES.TXT","rb");if(splashFile){char line[128];while(splashCount<240&&fgets(line,sizeof line,splashFile)){line[strcspn(line,"\r\n")]=0;if(line[0]){unsigned write=0;for(unsigned read=0;line[read];read++){unsigned char ch=(unsigned char)line[read];if(ch==195&&line[read+1]){unsigned char next=(unsigned char)line[++read];ch=next==165?134:next==164?132:next==182?148:'?';}line[write++]=char(ch);}line[write]=0;strcpy(splashes[splashCount++],line);}}fclose(splashFile);}if(splashCount)splashIndex=unsigned(time(0))%splashCount;
  editingSeed=false;strcpy(seedEdit,"42");
  memset(pixels,0,sizeof pixels);memset(worlds,0,sizeof worlds);memset(&cursor,0,sizeof cursor);memset(edit,0,sizeof edit);memset(message,0,sizeof message);
  FILE* f=fopen("WORLDS.DAT","rb");if(f){char magic[8];if(fread(magic,1,8,f)==8&&!memcmp(magic,"MCWORL01",8))for(int i=0;i<3;i++){worlds[i].used=fgetc(f)==1;fread(&worlds[i].seed,4,1,f);if(fread(worlds[i].name,1,25,f)!=25)worlds[i].used=false;worlds[i].name[24]=0;}fclose(f);}
@@ -38,7 +39,7 @@ void Gui::saveWorldList(){FILE* f=fopen("WORLDS.DAT","wb");if(!f){strcpy(message
 void Gui::saveSettings(){FILE* f=fopen("OPTIONS.DAT","wb");if(!f)return;fwrite("MCOPTION",1,8,f);fputc(sensitivity,f);fputc(invert?1:0,f);fputc(optionDistance,f);fputc(difficulty,f);fclose(f);}
 bool Gui::saveWorld(){if(world<0)return false;if(cursor.count){if(!game.progress.put(cursor)){strcpy(message,"Inventory full; return held item");return false;}memset(&cursor,0,sizeof cursor);}if(!game.progress.returnGrid())return false;char path[16];filename(path,"SAV");if(!game.save(path)){strcpy(message,"World save failed");return false;}worlds[world].used=true;saveWorldList();return true;}
 bool Gui::startWorld(int slot,bool create){if(slot<0||slot>=3)return false;world=slot;char path[16];filename(path,"SAV");if(create){game.generate(worlds[slot].seed);game.progress.enabled=true;if(!saveWorld())return false;}else if(!game.load(path)){strcpy(message,"World cannot be loaded");return false;}screen=Playing;focus=0;return true;}
-void Gui::open(Screen target){if(target==Inventory)game.progress.unlock(OpenInventory);if(target==Inventory||target==Crafting)inventoryFocus=0;if(target==Options)returnScreen=screen;screen=target;focus=0;message[0]=0;}
+void Gui::open(Screen target){if(target==Inventory)game.progress.unlock(OpenInventory);if(target==Inventory||target==Crafting)inventoryFocus=0;if(target==MainMenu&&splashCount)splashIndex=(splashIndex+1+unsigned(clock())%splashCount)%splashCount;if(target==Options)returnScreen=screen;screen=target;focus=0;message[0]=0;}
 void Gui::inventoryClick(int location,bool right){Stack* stack=location<36?&game.progress.inventory[location]:&game.progress.grid[location-36];
  if(!cursor.count){if(!stack->count)return;cursor=*stack;if(right){cursor.count=(stack->count+1)/2;stack->count-=cursor.count;if(!stack->count)memset(stack,0,sizeof *stack);}else memset(stack,0,sizeof *stack);return;}
  if(!stack->count||(stack->id==cursor.id&&stack->data==cursor.data&&stack->wear==cursor.wear)){unsigned limit=Progress::maxStack(cursor.id),n=right?1:cursor.count;if(n>limit-stack->count)n=limit-stack->count;if(!n)return;if(!stack->count){*stack=cursor;stack->count=0;}stack->count+=n;cursor.count-=n;if(!cursor.count)memset(&cursor,0,sizeof cursor);}
@@ -84,7 +85,7 @@ void Gui::draw(){
  // Hit-testing uses the same rectangles as drawing.
  hot=-1;
  #define BUTTON(id,x,y,w,title,enabled) do{if(mouseX>=x&&mouseX<x+w&&mouseY>=y&&mouseY<y+20&&(enabled))hot=id;button(id,x,y,w,title,enabled);}while(0)
- if(screen==MainMenu){text(2,2,"Minecraft Beta 1.7.3",gray);image(1,23,24,0,0,274,44);text(215,62,"Thematic!",yellow);BUTTON(0,60,84,200,"Singleplayer",true);BUTTON(1,60,107,200,"Multiplayer",true);BUTTON(2,60,130,200,"Mods and Texture Packs",true);BUTTON(3,60,153,200,"Options...",true);BUTTON(4,270,177,46,"Quit",true);text(3,190,"Independent recreation / DOS",gray);}
+ if(screen==MainMenu){text(2,2,"Minecraft Beta 1.7.3",gray);image(1,23,24,0,0,274,44);splash();BUTTON(0,60,84,200,"Singleplayer",true);BUTTON(1,60,107,200,"Multiplayer",true);BUTTON(2,60,130,200,"Mods and Texture Packs",true);BUTTON(3,60,153,200,"Options...",true);BUTTON(4,270,177,46,"Quit",true);text(3,190,"Independent recreation / DOS",gray);}
  else if(screen==WorldList){center(8,"Select world",white);for(int i=0;i<3;i++){char label[48];sprintf(label,"%d: %s",i+1,worlds[i].used?worlds[i].name:"- empty -");BUTTON(i,36,27+i*31,248,label,true);}bool selected=world>=0&&worlds[world].used;BUTTON(3,17,130,140,"Play Selected World",selected);BUTTON(4,163,130,140,"Create New World",true);BUTTON(5,17,154,67,"Rename",selected);BUTTON(6,90,154,67,"Delete",selected);BUTTON(7,163,154,140,"Cancel",true);}
  else if(screen==CreateWorld||screen==RenameWorld){center(14,screen==CreateWorld?"Create New World":"Rename World",white);text(48,48,"World Name",gray);rect(46,61,228,22,color(0,0,0));text(50,68,edit,white);text(48,94,"Type a name (24 ASCII characters)",gray);if(screen==CreateWorld){text(48,94,"Seed (0..4294967295)",gray);rect(46,106,228,22,color(0,0,0));text(50,113,seedEdit,white);BUTTON(2,222,83,52,"Random",true);}BUTTON(0,52,151,104,screen==CreateWorld?"Create World":"Rename",edit[0]!=0);BUTTON(1,164,151,104,"Cancel",true);}
  else if(screen==DeleteWorld){center(45,"Delete this world?",white);center(68,"This cannot be undone.",gray);BUTTON(0,52,112,104,"Delete",true);BUTTON(1,164,112,104,"Cancel",true);}
@@ -95,7 +96,7 @@ void Gui::draw(){
  else if(screen==Dead){center(35,"Game over!",white);BUTTON(0,60,86,200,"Respawn",true);BUTTON(1,60,114,200,"Title menu",true);}
  else if(screen==Achievements){center(7,"Achievements",white);for(int i=0;i<16;i++){char label[80];sprintf(label,"%s %s",game.progress.achievements&(1U<<i)?"[+]":"[ ]",Progress::achievementName(i));text(20+(i/8)*154,28+(i%8)*15,label,game.progress.achievements&(1U<<i)?yellow:gray);}BUTTON(0,90,168,140,"Done",true);}
  else if(screen==StatisticsPage){center(9,"Statistics",white);char label[80];const Statistics& s=game.progress.stats;const char* names[9]={"Time played (seconds)","Distance walked (cm)","Jumps","Deaths","Damage taken","Animals killed","Blocks mined","Blocks placed","Items crafted"};const uint32_t values[9]={s.ticks/50,s.centimeters,s.jumps,s.deaths,s.damageTaken,s.animalsKilled,s.blocksMined,s.blocksPlaced,s.itemsCrafted};for(int i=0;i<9;i++){sprintf(label,"%s: %lu",names[i],(unsigned long)values[i]);text(28,28+i*14,label,white);}BUTTON(0,90,168,140,"Done",true);}
- else if(screen==Inventory||screen==Crafting){int ox=72,oy=17,n=screen==Crafting?3:2;image(screen==Crafting?4:3,ox,oy,0,0,176,166);if(screen==Inventory){text(ox+87,oy+13,"Crafting",color(65,65,65),false);static uint8_t savedFrame[16000];static uint16_t savedDepth[16000];memcpy(savedFrame,game.frame,16000);memcpy(savedDepth,game.depth,32000);Player saved=game.player;memset(game.frame,0,16000);for(int i=0;i<16000;i++)game.depth[i]=65535;game.player.x=0;game.player.y=-.5f;game.player.z=0;game.player.yaw=0;game.player.pitch=0;humanoid(0,0,3,3.5f,8);for(int y=0;y<70;y++)for(int x=0;x<48;x++){uint8_t c=game.frame[(y+12)*160+x+56];if(c)pixels[(oy+10+y)*320+ox+27+x]=c;}game.player=saved;memcpy(game.frame,savedFrame,16000);memcpy(game.depth,savedDepth,32000);}else text(ox+28,oy+5,"Crafting",color(65,65,65),false);
+ else if(screen==Inventory||screen==Crafting){int ox=72,oy=17,n=screen==Crafting?3:2;image(screen==Crafting?4:3,ox,oy,0,0,176,166);if(screen==Inventory){text(ox+87,oy+13,"Crafting",color(65,65,65),false);static uint8_t savedFrame[16000];static uint16_t savedDepth[16000];memcpy(savedFrame,game.frame,16000);memcpy(savedDepth,game.depth,32000);Player saved=game.player;memset(game.frame,0,16000);for(int i=0;i<16000;i++)game.depth[i]=65535;game.player.x=0;game.player.y=-.5f;game.player.z=0;game.player.yaw=0;game.player.pitch=0;float oldHead=headPitch,oldYaw=headYaw;headPitch=mouseY>=0?atanf((mouseY-60)/60.f)*.45f:0;float look=mouseX>=0?atanf((mouseX-122)/65.f):0;headYaw=-look*.5f;humanoid(0,0,3,3.5f-look*.3f,8);headPitch=oldHead;headYaw=oldYaw;for(int y=0;y<70;y++)for(int x=0;x<48;x++){uint8_t c=game.frame[(y+12)*160+x+56];if(c)pixels[(oy+10+y)*320+ox+27+x]=c;}game.player=saved;memcpy(game.frame,savedFrame,16000);memcpy(game.depth,savedDepth,32000);}else text(ox+28,oy+5,"Crafting",color(65,65,65),false);
  for(int i=0;i<36;i++)item(ox+8+(i%9)*18,oy+(i<9?142:84+(i-9)/9*18),game.progress.inventory[i]);int gx=ox+(n==3?30:88),gy=oy+(n==3?17:26);for(int row=0;row<n;row++)for(int col=0;col<n;col++)item(gx+col*18,gy+row*18,game.progress.grid[row*3+col]);
  const Recipe* recipe=game.progress.match(n);if(recipe){Stack result={recipe->output,recipe->count,recipe->data,0};item(ox+(n==3?124:144),oy+(n==3?35:36),result);}int sx,sy;if(inventoryFocus<36){sx=ox+8+(inventoryFocus%9)*18;sy=oy+(inventoryFocus<9?142:84+(inventoryFocus-9)/9*18);}else {sx=gx+((inventoryFocus-36)%3)*18;sy=gy+((inventoryFocus-36)/3)*18;}rect(sx,sy,16,1,yellow);rect(sx,sy+15,16,1,yellow);if(cursor.count)item(mouseX>=0?mouseX:270,mouseY>=0?mouseY:100,cursor);text(4,190,"E close  TAB select  ENTER move  R one  C craft",white);}
  else if(screen==Playing){
@@ -118,15 +119,41 @@ void Gui::drawAnimals(){
  quadruped(a);
  }
  for(int i=0;i<16000;i++)overlayDepth[i]=65535;
- float sy=sinf(game.player.yaw),cy=cosf(game.player.yaw),sp=sinf(game.player.pitch),cp=cosf(game.player.pitch),cx=game.player.x+sy*cp*.7f+cy*.35f+sy*sp*.4f,cz=game.player.z+cy*cp*.7f-sy*.35f+cy*sp*.4f,handY=game.player.y+1.6f+sp*.7f-cp*.4f;
+
  float swing=mining>0?fabsf(sinf(game.progress.stats.ticks*.4f)):sinf(attackAnimation*3.14159265f);
  // First-person pose is camera-relative: changing look pitch must not rotate the arm out of view.
  Player handCamera=game.player;game.player.x=0;game.player.y=-1.6f;game.player.z=0;game.player.yaw=0;game.player.pitch=0;
- part(.47f-swing*.2f,-1.6f+swing*.06f,.95f+swing*.08f,.3f,8,40,16,0,12,0,-2,0,-2,4,12,4,2.89159265f-swing*.18f,.18f-swing*.05f,true);
+ part(.43f-swing*.2f,-1.57f+swing*.06f,.95f+swing*.08f,.3f,8,40,16,0,12,0,-2,0,-2,4,12,4,2.89159265f-swing*.18f,.18f-swing*.05f,true);
  game.player=handCamera;
  unsigned held=game.progress.inventory[game.progress.slot].id;
- if(held){int tile=held<256?blockTile(held):int(Progress::icon(held));box(cx-sy*.05f+cy*swing*.12f,handY+.25f-swing*.2f,cz-cy*.05f-sy*swing*.12f,.38f,.4f,held<256?.38f:.035f,game.player.yaw-.3f+swing*.6f,held<256?-1:6,tile%16*16-8,tile/16*16-8,true);}
+ if(held){game.player.x=0;game.player.y=-1.6f;game.player.z=0;game.player.yaw=0;game.player.pitch=0;heldItem(held,swing);game.player=handCamera;}
 
+
+}
+Gui::Vertex Gui::heldVertex(float x,float y,float z,float swing){
+ (void)swing;return {heldOrigin[0]+heldMatrix[0]*x+heldMatrix[1]*y+heldMatrix[2]*z,heldOrigin[1]+heldMatrix[3]*x+heldMatrix[4]*y+heldMatrix[5]*z,heldOrigin[2]+heldMatrix[6]*x+heldMatrix[7]*y+heldMatrix[8]*z,0,0};
+}
+void Gui::heldItem(unsigned id,float swing){
+ float rx=2.89159265f-swing*.18f,rz=.18f-swing*.05f,yaw=3.44159265f,sx=sinf(rx),cx=cosf(rx),sz=sinf(rz),cz=cosf(rz),sy=sinf(yaw),cy=cosf(yaw);
+ heldOrigin[0]=.43f-swing*.2f;heldOrigin[1]=-.82f+swing*.06f;heldOrigin[2]=.95f+swing*.08f;
+ for(int j=0;j<3;j++){float x=j==0?1.f:0.f,y=j==1?1.f:0.f,z=j==2?1.f:0.f,yy=y*cx-z*sx,zz=y*sx+z*cx,xx=x*cz-yy*sz;yy=x*sz+yy*cz;heldMatrix[j]=(xx*cy+zz*sy)/16;heldMatrix[3+j]=-yy/16;heldMatrix[6+j]=(zz*cy-xx*sy)/16;}
+
+ int tile=id<256?blockTile(id):int(Progress::icon(id)),texture=id<256?-1:6,tu=tile%16*16,tv=tile/16*16;
+ if(id<256){Vertex v[8];for(int i=0;i<8;i++)v[i]=heldVertex((i&1?2.5f:-2.5f),10+(i&2?2.5f:-2.5f),-3+(i&4?2.5f:-2.5f),swing);const int faces[6][4]={{0,1,3,2},{5,4,6,7},{4,0,2,6},{1,5,7,3},{2,3,7,6},{4,5,1,0}};for(int f=0;f<6;f++){int t=tile;if(id==Log&&f>=4)t=21;Vertex a=v[faces[f][0]],b=v[faces[f][1]],c=v[faces[f][2]],d=v[faces[f][3]];a.u=d.u=t%16*16+.01f;b.u=c.u=t%16*16+15.99f;a.v=b.v=t/16*16+.01f;c.v=d.v=t/16*16+15.99f;cameraTriangle(a,b,c,-1,true);cameraTriangle(a,c,d,-1,true);}return;}
+ // Opaque pixel boundaries form real side walls; front/back retain the original item silhouette.
+ for(int y=0;y<16;y++)for(int x=0;x<16;x++){
+  if(!data[images[6].offset+(tv+y)*images[6].w+tu+x])continue;
+  for(int face=0;face<6;face++){
+   int nx=x+(face==2?-1:face==3?1:0),ny=y+(face==4?-1:face==5?1:0);
+   if(face>=2&&nx>=0&&nx<16&&ny>=0&&ny<16&&data[images[6].offset+(tv+ny)*images[6].w+tu+nx])continue;
+   float x0=(x-8)*.5f,x1=x0+.5f,y0=18-y*.5f,y1=y0-.5f,z0=-3.7f,z1=-3.1f;Vertex v[8];for(int i=0;i<8;i++)v[i]=heldVertex(i&1?x1:x0,i&2?y1:y0,i&4?z1:z0,swing);
+   const int ids[6][4]={{0,1,3,2},{5,4,6,7},{4,0,2,6},{1,5,7,3},{0,4,5,1},{2,3,7,6}};Vertex a=v[ids[face][0]],b=v[ids[face][1]],c=v[ids[face][2]],d=v[ids[face][3]];a.u=b.u=c.u=d.u=tu+x+.5f;a.v=b.v=c.v=d.v=tv+y+.5f;cameraTriangle(a,b,c,texture,true);cameraTriangle(a,c,d,texture,true);
+  }
+ }
+}
+void Gui::splash(){
+ if(!splashCount)return;const char* value=splashes[splashIndex];time_t now=time(0);tm* date=localtime(&now);if(date){if(date->tm_mon==10&&date->tm_mday==9)value="Happy birthday, ez!";if(date->tm_mon==5&&date->tm_mday==1)value="Happy birthday, Notch!";if(date->tm_mon==11&&date->tm_mday==24)value="Merry X-mas!";if(date->tm_mon==0&&date->tm_mday==1)value="Happy new year!";}int width=textWidth(value);float scale=180.f/(width+32);if(scale*width>145)scale=145.f/width;scale*=1-fabsf(sinf(uiTime*6.2831853f))*.0555556f;
+ float c=.9396926f,s=-.3420201f;for(int pass=0;pass<2;pass++)for(int ch=0,offset=0;value[ch];ch++){unsigned code=(unsigned char)value[ch];char one[2]={value[ch],0};for(int y=0;y<8;y++)for(int x=0;x<8;x++)if(data[images[0].offset+(code/16*8+y)*128+code%16*8+x]){float lx=(offset+x-width*.5f)*scale,ly=(y-4)*scale;int px=int(238+c*lx-s*ly)+!pass,py=int(60+s*lx+c*ly)+!pass;rect(px,py,int(ceilf(scale)),int(ceilf(scale)),pass?color(255,255,0):color(40,40,0));}offset+=textWidth(one);}
 }
 void Gui::cameraTriangle(Vertex a,Vertex b,Vertex c,int texture,bool overlay){
  Vertex input[3]={a,b,c},clipped[4];int count=0;
@@ -164,8 +191,8 @@ void Gui::part(float x,float y,float z,float yaw,int texture,int u,int v,float p
 }
 void Gui::humanoid(float x,float y,float z,float yaw,int texture,bool overlay,float phase,float amount){
  float walk=overlay?0:cosf(phase*.6662f)*1.4f*amount;
- part(x,y,z,yaw,texture,0,0,0,0,0,-4,-8,-4,8,8,8,0,0,overlay);
- if(texture==8)part(x,y,z,yaw,texture,32,0,0,0,0,-4,-8,-4,8,8,8,0,0,overlay,.5f);
+ part(x,y,z,yaw+headYaw,texture,0,0,0,0,0,-4,-8,-4,8,8,8,headPitch,0,overlay);
+ if(texture==8)part(x,y,z,yaw+headYaw,texture,32,0,0,0,0,-4,-8,-4,8,8,8,headPitch,0,overlay,.5f);
  part(x,y,z,yaw,texture,16,16,0,0,0,-4,0,-2,8,12,4,0,0,overlay);
  bool skeleton=texture==18;int width=skeleton?2:4;
  part(x,y,z,yaw,texture,40,16,-5,2,0,-width+1,-2,skeleton?-1:-2,width,12,width,texture==17||texture==18?-1.5707963f-walk*.2f:-walk,.05f,overlay);

@@ -1,6 +1,6 @@
 # Modelos y reloj corregidos
 
-25 comprobaciones de motor y 119 de funciones, sin fallos, con 6 MB sin swap en DOSBox. Véanse MANIFEST.json y RESULT.TXT; la revisión Linux con sanitizadores también pasó. Los modelos no se consideran equivalentes en todos sus detalles al original.
+25 comprobaciones de motor y 129 de funciones, sin fallos, con 6 MB sin swap en DOSBox. Véanse MANIFEST.json y RESULT.TXT; la revisión Linux con sanitizadores también pasó. Los modelos no se consideran equivalentes en todos sus detalles al original.
 
 ![Steve](INV.png)
 
@@ -31,3 +31,21 @@ Solo se ajustó la pose de primera persona. Se conserva al mirar arriba; la prue
 ![Mirando arriba](HANDUP.png)
 
 ![Golpe](PUNCH.png)
+
+## Inventario, mano e ítems
+
+![Cursor izquierda](LOOKLEFT.png)
+
+![Cursor derecha](LOOKRIGHT.png)
+
+![Bloque](HELD0.png)
+
+![Espada extruida](HELD1.png)
+
+![Pico](HELD2.png)
+
+![Palo](HELD3.png)
+
+![Golpe](HELDSWNG.png)
+
+![Menú animado](MENU.png)

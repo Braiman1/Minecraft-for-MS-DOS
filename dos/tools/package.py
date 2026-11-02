@@ -32,7 +32,7 @@ https://github.com/jayschwa/cwsdpmi/tree/ed2b39b48f12de16fc01aa2415a6b3c5b9531ab
 Author's distribution: http://sandmann.dotster.com/cwsdpmi/
 '''
 with zipfile.ZipFile(dist / 'MCDOS.ZIP', 'w', zipfile.ZIP_DEFLATED) as z:
-    for name in ['MCDOS.EXE', 'ATLAS.DAT', 'GUI.DAT', 'CWSDPMI.EXE']:
+    for name in ['MCDOS.EXE', 'ATLAS.DAT', 'GUI.DAT', 'SPLASHES.TXT', 'CWSDPMI.EXE']:
         z.write(build / name, name)
     for name in ['COPYING', 'COPYING.CWS', 'CWSDPMI.DOC']:
         z.write(root / 'third_party/cwsdpmi' / name, name)
@@ -40,7 +40,7 @@ with zipfile.ZipFile(dist / 'MCDOS.ZIP', 'w', zipfile.ZIP_DEFLATED) as z:
     z.writestr('README.TXT', readme.replace('\n', '\r\n'))
 with zipfile.ZipFile(dist / 'MCDOS.ZIP') as z:
     assert z.testzip() is None
-files = ['MCDOS.EXE', 'ATLAS.DAT', 'GUI.DAT', 'CWSDPMI.EXE']
+files = ['MCDOS.EXE', 'ATLAS.DAT', 'GUI.DAT', 'SPLASHES.TXT', 'CWSDPMI.EXE']
 (dist / 'SHA256SUMS').write_text(''.join(hashlib.sha256((build / f).read_bytes()).hexdigest() + '  ' + f + '\n' for f in files)
                               + hashlib.sha256((dist / 'MCDOS.ZIP').read_bytes()).hexdigest() + '  MCDOS.ZIP\n')
 print(dist / 'MCDOS.ZIP')

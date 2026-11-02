@@ -93,7 +93,7 @@ int main(int argc,char** argv) {
     while(!gui.quit) {
         uclock_t now=uclock();double realElapsed=double(now-previous)/UCLOCKS_PER_SEC;float dt=float(realElapsed);previous=now;
         if(gui.screen==mc::Playing||gui.screen==mc::Inventory||gui.screen==mc::Crafting)game.advanceClock(realElapsed);
-        if(dt>.25f)dt=.25f;gui.attackAnimation-=dt*3;if(gui.attackAnimation<0)gui.attackAnimation=0;
+        gui.uiTime+=dt;if(dt>.25f)dt=.25f;gui.attackAnimation-=dt*3;if(gui.attackAnimation<0)gui.attackAnimation=0;
         bool savePressed=keys[63]&&!previousKeys[63];
         for(int i=1;i<128;i++){if(keys[i]&&!previousKeys[i])gui.key(i,asciiFor(i));previousKeys[i]=keys[i]!=0;}
         unsigned buttons=0;

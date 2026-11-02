@@ -1,1 +1,1 @@
-Previous model/clock build passed sanitizers. The current hand-pose-only update was checked using host functional checks, visual captures and DOSBox 6 MB; sanitizer results were not regenerated.
+Current host build: 25 engine + 129 feature checks passed with AddressSanitizer, UndefinedBehaviorSanitizer and LeakSanitizer, exit 0, no findings.

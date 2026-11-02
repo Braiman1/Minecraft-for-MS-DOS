@@ -13,7 +13,9 @@ public:
     Stack cursor;
     int focus,world,hot,inventoryFocus,craftFocus,mouseX,mouseY,sensitivity,difficulty;
     bool invert,quit;
-    float mining,attackAnimation;
+    float mining,attackAnimation,uiTime;
+    float headPitch,headYaw;
+    unsigned splashVariants()const{return splashCount;}
     char edit[25],message[80],seedEdit[16];
     bool editingSeed;
     Gui(Game& g);
@@ -50,6 +52,12 @@ private:
     void part(float x,float y,float z,float yaw,int texture,int u,int v,float px,float py,float pz,float ox,float oy,float oz,int w,int h,int d,float rx=0,float rz=0,bool overlay=false,float inflate=0);
     void quadruped(const Animal& animal);
     void humanoid(float x,float y,float z,float yaw,int texture,bool overlay=false,float phase=0,float amount=0);
+    float heldMatrix[9],heldOrigin[3];
+    Vertex heldVertex(float x,float y,float z,float swing);
+    void heldItem(unsigned id,float swing);
+    void splash();
+    char splashes[240][128];
+    unsigned splashCount,splashIndex;
     void item(int x,int y,const Stack& stack);
     void inventoryClick(int slot,bool right);
     void activate(int id);
