@@ -13,7 +13,7 @@ public:
     Stack cursor;
     int focus,world,hot,inventoryFocus,craftFocus,mouseX,mouseY,sensitivity,difficulty;
     bool invert,quit;
-    float mining;
+    float mining,attackAnimation;
     char edit[25],message[80],seedEdit[16];
     bool editingSeed;
     Gui(Game& g);
@@ -29,9 +29,10 @@ public:
     bool screenshot(const char* path)const;
     void remap();
 private:
-    struct Image { unsigned short w,h;unsigned offset; } images[22];
+    struct Image { unsigned short w,h;unsigned offset; } images[23];
     uint8_t data[600000],sourcePalette[768],paletteMap[256];
     uint16_t overlayDepth[16000];
+    float previousX[12],previousZ[12],walkPhase[12],walkAmount[12];
     unsigned dataSize;
     int optionDistance;
     uint8_t color(int r,int g,int b)const;
@@ -43,9 +44,12 @@ private:
     void button(int id,int x,int y,int w,const char* title,bool enabled=true);
     void background();
     struct Vertex {float x,y,z,u,v;};
+    void cameraTriangle(Vertex a,Vertex b,Vertex c,int texture,bool overlay=false);
     void triangle(Vertex a,Vertex b,Vertex c,int texture,bool overlay=false);
     void box(float x,float y,float z,float w,float h,float d,float yaw,int texture,int u,int v,bool overlay=false);
-    void humanoid(float x,float y,float z,float yaw,int texture,bool overlay=false);
+    void part(float x,float y,float z,float yaw,int texture,int u,int v,float px,float py,float pz,float ox,float oy,float oz,int w,int h,int d,float rx=0,float rz=0,bool overlay=false,float inflate=0);
+    void quadruped(const Animal& animal);
+    void humanoid(float x,float y,float z,float yaw,int texture,bool overlay=false,float phase=0,float amount=0);
     void item(int x,int y,const Stack& stack);
     void inventoryClick(int slot,bool right);
     void activate(int id);

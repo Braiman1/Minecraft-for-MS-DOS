@@ -12,3 +12,5 @@
 - GitHub publication was authorized on branch `codex/dos-port`. Do not overwrite unrelated user changes or claim a push succeeded without verifying the remote ref.
 
 - Latest requested scope: 3D animal/hostile/Steve geometry and held arm/items/blocks; sun/moon day-night; green grass/leaves; numeric world seed field and automatic generation. Current models are approximate textured cuboids, hostiles have basic melee only (no arrows/explosions), seeds are unsigned 32-bit rather than Java 64-bit. Do not claim exact original model/AI/worldgen parity. Current DOS check count is 25+99, with 6 MB and no swap.
+
+- Model/clock correction: read dos/MODELS.md. Per-face UVs, articulated movement, species parts and near-plane clipping replace the earlier generic boxes. Clock is independent of capped physics: 1200 real elapsed active seconds, phases 600/90/420/90; profile v03 persists worldTicks and supports v02. Current checks: 25+115, DOS 6 MB without swap. GCC 12.2/DJGPP target; GCC g++ host sanitizer build.

@@ -2,12 +2,12 @@
   "memory_mb": 6,
   "swap": false,
   "engine_checks": 25,
-  "feature_checks": 99,
-  "recipe_count": 151,
+  "feature_checks": 115,
+  "cycle_seconds": 1200,
   "files": {
-    "MCDOS.EXE": "a30ee0eb3b765f46fc05870b4c83505fcf2c9315fdd081596bcf16027abfc3df",
+    "MCDOS.EXE": "f029d4dc30dc214faa177650e9ef6b3db5bb6c0a47aad03c7512993144bfdb01",
     "ATLAS.DAT": "b4ef8122346566d5be3a5754073660a486153a3c9bdcdd9e977e80774fa90b86",
-    "GUI.DAT": "33e4c5d3e7b69da315604da8828d2525eeaa68928b5ab0252f67579ed7b9658d",
+    "GUI.DAT": "77e6d45cb3e93f9dfdbc691be22695ecf6b582d68ed10bfad27cadf0327f5e0f",
     "CWSDPMI.EXE": "2de899fecaa90632b8b9bdfc0305cb0375e59ae252c37e32d06c1ed3f98a8f44"
   }
 }

@@ -8,7 +8,8 @@
 namespace mc {
 static float smaller(float a,float b){return a<b?a:b;}
 static float larger(float a,float b){return a>b?a:b;}
-Gui::Gui(Game& g):game(g),screen(MainMenu),returnScreen(MainMenu),focus(0),world(-1),hot(-1),inventoryFocus(0),craftFocus(0),mouseX(-1),mouseY(-1),sensitivity(50),difficulty(2),invert(false),quit(false),mining(0),dataSize(0),optionDistance(2){
+Gui::Gui(Game& g):game(g),screen(MainMenu),returnScreen(MainMenu),focus(0),world(-1),hot(-1),inventoryFocus(0),craftFocus(0),mouseX(-1),mouseY(-1),sensitivity(50),difficulty(2),invert(false),quit(false),mining(0),attackAnimation(0),dataSize(0),optionDistance(2){
+ memset(previousX,0,sizeof previousX);memset(previousZ,0,sizeof previousZ);memset(walkPhase,0,sizeof walkPhase);memset(walkAmount,0,sizeof walkAmount);
  editingSeed=false;strcpy(seedEdit,"42");
  memset(pixels,0,sizeof pixels);memset(worlds,0,sizeof worlds);memset(&cursor,0,sizeof cursor);memset(edit,0,sizeof edit);memset(message,0,sizeof message);
  FILE* f=fopen("WORLDS.DAT","rb");if(f){char magic[8];if(fread(magic,1,8,f)==8&&!memcmp(magic,"MCWORL01",8))for(int i=0;i<3;i++){worlds[i].used=fgetc(f)==1;fread(&worlds[i].seed,4,1,f);if(fread(worlds[i].name,1,25,f)!=25)worlds[i].used=false;worlds[i].name[24]=0;}fclose(f);}
@@ -16,12 +17,12 @@ Gui::Gui(Game& g):game(g),screen(MainMenu),returnScreen(MainMenu),focus(0),world
  game.viewDistance=8+optionDistance*8;game.difficulty=difficulty;
 }
 uint8_t Gui::color(int r,int g,int b)const{int best=0x7fffffff,index=1;for(int i=1;i<256;i++){int dr=r-game.palette[i*3],dg=g-game.palette[i*3+1],db=b-game.palette[i*3+2],d=dr*dr+dg*dg+db*db;if(d<best){best=d;index=i;}}return uint8_t(index);}
-bool Gui::load(const char* path){FILE* f=fopen(path,"rb");if(!f)return false;char magic[8];unsigned count=0;bool ok=fread(magic,1,8,f)==8&&!memcmp(magic,"MCGUI001",8)&&fread(&count,4,1,f)==1&&count==22&&fread(sourcePalette,1,768,f)==768;dataSize=0;
+bool Gui::load(const char* path){FILE* f=fopen(path,"rb");if(!f)return false;char magic[8];unsigned count=0;bool ok=fread(magic,1,8,f)==8&&!memcmp(magic,"MCGUI001",8)&&fread(&count,4,1,f)==1&&count==23&&fread(sourcePalette,1,768,f)==768;dataSize=0;
  for(unsigned i=0;ok&&i<count;i++){unsigned short w,h;unsigned bytes;ok=fread(&w,2,1,f)==1&&fread(&h,2,1,f)==1&&fread(&bytes,4,1,f)==1&&w&&h&&bytes==unsigned(w)*h&&dataSize+bytes<=sizeof data;if(ok){images[i].w=w;images[i].h=h;images[i].offset=dataSize;dataSize+=bytes;}}
  ok=ok&&fread(data,1,dataSize,f)==dataSize;fclose(f);if(ok)remap();return ok;}
 void Gui::remap(){paletteMap[0]=0;for(int i=1;i<256;i++)paletteMap[i]=color(sourcePalette[i*3],sourcePalette[i*3+1],sourcePalette[i*3+2]);}
 void Gui::rect(int x,int y,int w,int h,uint8_t c){for(int j=y<0?0:y;j<y+h&&j<200;j++)for(int i=x<0?0:x;i<x+w&&i<320;i++)pixels[j*320+i]=c;}
-void Gui::image(int id,int x,int y,int sx,int sy,int sw,int sh,int w,int h){if(id<0||id>=22)return;if(!w)w=sw;if(!h)h=sh;const Image& im=images[id];for(int j=0;j<h;j++)for(int i=0;i<w;i++){int px=x+i,py=y+j,u=sx+i*sw/w,v=sy+j*sh/h;if(px<0||py<0||px>=320||py>=200||u<0||v<0||u>=im.w||v>=im.h)continue;uint8_t c=data[im.offset+v*im.w+u];if(c)pixels[py*320+px]=paletteMap[c];}}
+void Gui::image(int id,int x,int y,int sx,int sy,int sw,int sh,int w,int h){if(id<0||id>=23)return;if(!w)w=sw;if(!h)h=sh;const Image& im=images[id];for(int j=0;j<h;j++)for(int i=0;i<w;i++){int px=x+i,py=y+j,u=sx+i*sw/w,v=sy+j*sh/h;if(px<0||py<0||px>=320||py>=200||u<0||v<0||u>=im.w||v>=im.h)continue;uint8_t c=data[im.offset+v*im.w+u];if(c)pixels[py*320+px]=paletteMap[c];}}
 int Gui::textWidth(const char* s)const{int width=0;while(*s){unsigned c=(unsigned char)*s++;int right=c==32?2:0;for(int x=0;x<8;x++)for(int y=0;y<8;y++)if(data[images[0].offset+(c/16*8+y)*128+c%16*8+x])right=x>right?x:right;width+=right+2;}return width;}
 void Gui::text(int x,int y,const char* s,uint8_t c,bool shadow){if(shadow)text(x+1,y+1,s,color(20,20,20),false);while(*s){unsigned ch=(unsigned char)*s++;int right=ch==32?2:0;for(int i=0;i<8;i++)for(int j=0;j<8;j++)if(data[images[0].offset+(ch/16*8+j)*128+ch%16*8+i]){if(i>right)right=i;if(x+i>=0&&x+i<320&&y+j>=0&&y+j<200)pixels[(y+j)*320+x+i]=c;}x+=right+2;}}
 void Gui::center(int y,const char* s,uint8_t c){text((320-textWidth(s))/2,y,s,c);}
@@ -94,7 +95,7 @@ void Gui::draw(){
  else if(screen==Dead){center(35,"Game over!",white);BUTTON(0,60,86,200,"Respawn",true);BUTTON(1,60,114,200,"Title menu",true);}
  else if(screen==Achievements){center(7,"Achievements",white);for(int i=0;i<16;i++){char label[80];sprintf(label,"%s %s",game.progress.achievements&(1U<<i)?"[+]":"[ ]",Progress::achievementName(i));text(20+(i/8)*154,28+(i%8)*15,label,game.progress.achievements&(1U<<i)?yellow:gray);}BUTTON(0,90,168,140,"Done",true);}
  else if(screen==StatisticsPage){center(9,"Statistics",white);char label[80];const Statistics& s=game.progress.stats;const char* names[9]={"Time played (seconds)","Distance walked (cm)","Jumps","Deaths","Damage taken","Animals killed","Blocks mined","Blocks placed","Items crafted"};const uint32_t values[9]={s.ticks/50,s.centimeters,s.jumps,s.deaths,s.damageTaken,s.animalsKilled,s.blocksMined,s.blocksPlaced,s.itemsCrafted};for(int i=0;i<9;i++){sprintf(label,"%s: %lu",names[i],(unsigned long)values[i]);text(28,28+i*14,label,white);}BUTTON(0,90,168,140,"Done",true);}
- else if(screen==Inventory||screen==Crafting){int ox=72,oy=17,n=screen==Crafting?3:2;image(screen==Crafting?4:3,ox,oy,0,0,176,166);if(screen==Inventory){text(ox+87,oy+13,"Crafting",color(65,65,65),false);static uint8_t savedFrame[16000];static uint16_t savedDepth[16000];memcpy(savedFrame,game.frame,16000);memcpy(savedDepth,game.depth,32000);Player saved=game.player;memset(game.frame,0,16000);for(int i=0;i<16000;i++)game.depth[i]=65535;game.player.x=0;game.player.y=.4f;game.player.z=0;game.player.yaw=0;game.player.pitch=0;humanoid(0,0,3,.35f,8);for(int y=0;y<70;y++)for(int x=0;x<48;x++){uint8_t c=game.frame[(y+12)*160+x+56];if(c)pixels[(oy+10+y)*320+ox+27+x]=c;}game.player=saved;memcpy(game.frame,savedFrame,16000);memcpy(game.depth,savedDepth,32000);}else text(ox+28,oy+5,"Crafting",color(65,65,65),false);
+ else if(screen==Inventory||screen==Crafting){int ox=72,oy=17,n=screen==Crafting?3:2;image(screen==Crafting?4:3,ox,oy,0,0,176,166);if(screen==Inventory){text(ox+87,oy+13,"Crafting",color(65,65,65),false);static uint8_t savedFrame[16000];static uint16_t savedDepth[16000];memcpy(savedFrame,game.frame,16000);memcpy(savedDepth,game.depth,32000);Player saved=game.player;memset(game.frame,0,16000);for(int i=0;i<16000;i++)game.depth[i]=65535;game.player.x=0;game.player.y=-.5f;game.player.z=0;game.player.yaw=0;game.player.pitch=0;humanoid(0,0,3,3.5f,8);for(int y=0;y<70;y++)for(int x=0;x<48;x++){uint8_t c=game.frame[(y+12)*160+x+56];if(c)pixels[(oy+10+y)*320+ox+27+x]=c;}game.player=saved;memcpy(game.frame,savedFrame,16000);memcpy(game.depth,savedDepth,32000);}else text(ox+28,oy+5,"Crafting",color(65,65,65),false);
  for(int i=0;i<36;i++)item(ox+8+(i%9)*18,oy+(i<9?142:84+(i-9)/9*18),game.progress.inventory[i]);int gx=ox+(n==3?30:88),gy=oy+(n==3?17:26);for(int row=0;row<n;row++)for(int col=0;col<n;col++)item(gx+col*18,gy+row*18,game.progress.grid[row*3+col]);
  const Recipe* recipe=game.progress.match(n);if(recipe){Stack result={recipe->output,recipe->count,recipe->data,0};item(ox+(n==3?124:144),oy+(n==3?35:36),result);}int sx,sy;if(inventoryFocus<36){sx=ox+8+(inventoryFocus%9)*18;sy=oy+(inventoryFocus<9?142:84+(inventoryFocus-9)/9*18);}else {sx=gx+((inventoryFocus-36)%3)*18;sy=gy+((inventoryFocus-36)/3)*18;}rect(sx,sy,16,1,yellow);rect(sx,sy+15,16,1,yellow);if(cursor.count)item(mouseX>=0?mouseX:270,mouseY>=0?mouseY:100,cursor);text(4,190,"E close  TAB select  ENTER move  R one  C craft",white);}
  else if(screen==Playing){
@@ -110,21 +111,25 @@ void Gui::draw(){
  #undef BUTTON
 }
 void Gui::drawAnimals(){
- float angle=float(game.progress.stats.ticks%60000)*6.2831853f/60000;
+ float angle=float(game.progress.worldTicks)*6.2831853f/60000;
  for(int body=0;body<2;body++){float dx=cosf(angle)*(body?-1:1),dy=sinf(angle)*(body?-1:1),forward=dx*sinf(game.player.yaw),zz=forward*cosf(game.player.pitch)+dy*sinf(game.player.pitch);if(zz<=.1f)continue;int cx=80+int(dx*cosf(game.player.yaw)*80/zz),cy=50-int((dy*cosf(game.player.pitch)-forward*sinf(game.player.pitch))*80/zz);const Image& im=images[20+body];for(int y=0;y<40;y++)for(int x=0;x<40;x++){int px=cx+x-20,py=cy+y-20;if(px<0||px>=160||py<0||py>=100||game.depth[py*160+px]!=65535)continue;uint8_t c=paletteMap[data[im.offset+(y*im.h/40)*im.w+x*im.w/40]];if(game.palette[c*3]+game.palette[c*3+1]+game.palette[c*3+2]>120)game.frame[py*160+px]=c;}}
- for(int i=0;i<12;i++){const Animal& a=game.progress.animals[i];if(!a.health)continue;
- if(a.kind>=4){if(!game.night()||!game.difficulty)continue;if(a.kind==6){box(a.x,a.y+.9f,a.z,.5f,.9f,.3f,a.yaw,19,8,8);box(a.x,a.y+1.6f,a.z,.5f,.5f,.5f,a.yaw,19,0,0);for(int leg=0;leg<4;leg++)box(a.x+(leg%2?.2f:-.2f),a.y+.2f,a.z+(leg/2?.2f:-.2f),.25f,.4f,.25f,a.yaw,19,0,16);}else humanoid(a.x,a.y,a.z,a.yaw,17+(a.kind-4)%3);continue;}
- float bob=sinf(game.progress.stats.ticks*.15f+i)*.04f;
- box(a.x,a.y+.5f,a.z,.7f,.65f,1.f,a.yaw,9+a.kind,28,8);
- box(a.x,a.y+1.f,a.z+.4f,.5f,.5f,.5f,a.yaw,9+a.kind,0,0);
- for(int leg=0;leg<4;leg++)box(a.x+(leg%2? .22f:-.22f),a.y+.2f+bob*(leg%2?1:-1),a.z+(leg/2?.32f:-.32f),.18f,.45f,.18f,a.yaw,9+a.kind,0,16);
+ for(int i=0;i<12;i++){const Animal& a=game.progress.animals[i];if(!a.health)continue;float mx=a.x-previousX[i],mz=a.z-previousZ[i],distance=sqrtf(mx*mx+mz*mz);if(distance>1)distance=0;previousX[i]=a.x;previousZ[i]=a.z;walkPhase[i]+=distance*4;walkAmount[i]=walkAmount[i]*.6f+smaller(distance*12,1)*.4f;
+ if(a.kind>=4){if(!game.night()||!game.difficulty)continue;if(a.kind==6){part(a.x,a.y,a.z,a.yaw,19,0,0,0,6,0,-4,-8,-4,8,8,8);part(a.x,a.y,a.z,a.yaw,19,16,16,0,6,0,-4,0,-2,8,12,4);for(int leg=0;leg<4;leg++)part(a.x,a.y,a.z,a.yaw,19,0,16,leg%2?2:-2,18,leg/2?4:-4,-2,0,-2,4,6,4,cosf(walkPhase[i]*.6662f+(leg==0||leg==3?0:3.14159265f))*1.4f*walkAmount[i]);}else humanoid(a.x,a.y,a.z,a.yaw,17+(a.kind-4)%3,false,walkPhase[i],walkAmount[i]);continue;}
+ quadruped(a);
  }
  for(int i=0;i<16000;i++)overlayDepth[i]=65535;
  float sy=sinf(game.player.yaw),cy=cosf(game.player.yaw),sp=sinf(game.player.pitch),cp=cosf(game.player.pitch),cx=game.player.x+sy*cp*.7f+cy*.35f+sy*sp*.4f,cz=game.player.z+cy*cp*.7f-sy*.35f+cy*sp*.4f,handY=game.player.y+1.6f+sp*.7f-cp*.4f;
- box(cx,handY,cz,.23f,.75f,.23f,game.player.yaw+.3f,8,36,12,true);
+ float swing=mining>0?fabsf(sinf(game.progress.stats.ticks*.4f)):sinf(attackAnimation*3.14159265f);
+ part(cx,handY-.75f,cz,game.player.yaw+.3f,8,40,16,0,12,0,-2,0,-2,4,12,4,-.2f-swing*.8f,0,true);
  unsigned held=game.progress.inventory[game.progress.slot].id;
- if(held){int tile=held<256?blockTile(held):int(Progress::icon(held));box(cx-sy*.05f,handY+.25f,cz-cy*.05f,.38f,.4f,held<256?.38f:.035f,game.player.yaw-.3f,held<256?-1:6,tile%16*16-8,tile/16*16-8,true);}
+ if(held){int tile=held<256?blockTile(held):int(Progress::icon(held));box(cx-sy*.05f+cy*swing*.12f,handY+.25f-swing*.2f,cz-cy*.05f-sy*swing*.12f,.38f,.4f,held<256?.38f:.035f,game.player.yaw-.3f+swing*.6f,held<256?-1:6,tile%16*16-8,tile/16*16-8,true);}
 
+}
+void Gui::cameraTriangle(Vertex a,Vertex b,Vertex c,int texture,bool overlay){
+ Vertex input[3]={a,b,c},clipped[4];int count=0;
+ for(int i=0;i<3;i++){Vertex p=input[i],q=input[(i+1)%3];bool in=p.z>=.08f,next=q.z>=.08f;if(in)clipped[count++]=p;if(in!=next){float t=(.08f-p.z)/(q.z-p.z);clipped[count++]={p.x+(q.x-p.x)*t,p.y+(q.y-p.y)*t,.08f,p.u+(q.u-p.u)*t,p.v+(q.v-p.v)*t};}}
+ for(int i=0;i<count;i++){clipped[i].x=80+clipped[i].x*80/clipped[i].z;clipped[i].y=50-clipped[i].y*80/clipped[i].z;}
+ for(int i=1;i+1<count;i++)triangle(clipped[0],clipped[i],clipped[i+1],texture,overlay);
 }
 void Gui::triangle(Vertex a,Vertex b,Vertex c,int texture,bool overlay){
  float area=(b.x-a.x)*(c.y-a.y)-(b.y-a.y)*(c.x-a.x);if(fabsf(area)<.001f)return;
@@ -142,12 +147,43 @@ void Gui::box(float x,float y,float z,float w,float h,float d,float yaw,int text
  for(int i=0;i<8;i++){float lx=(i&1?w:-w)/2,lz=(i&4?d:-d)/2,dx=x+lx*cs+lz*sn-game.player.x,dz=z+lz*cs-lx*sn-game.player.z,dy=y+(i&2?h:-h)/2-(game.player.y+1.6f),forward=dx*sy+dz*cy;
  float depth=forward*cp+dy*sp;if(depth<.08f)return;verts[i]={80+(dx*cy-dz*sy)*80/depth,50-(dy*cp-forward*sp)*80/depth,depth,0,0};}
  const int faces[6][4]={{0,1,3,2},{5,4,6,7},{4,0,2,6},{1,5,7,3},{2,3,7,6},{4,5,1,0}};
- for(int f=0;f<6;f++){Vertex a=verts[faces[f][0]],b=verts[faces[f][1]],c=verts[faces[f][2]],e=verts[faces[f][3]];int width=int(w*16),height=int(h*16);if(width<1)width=1;if(height<1)height=1;if(texture==6||texture<0){width=16;height=16;}a.u=e.u=u+8;a.v=b.v=v+8;b.u=c.u=u+8+width;c.v=e.v=v+8+height;triangle(a,b,c,texture,overlay);triangle(a,c,e,texture,overlay);}
+ for(int f=0;f<6;f++){Vertex a=verts[faces[f][0]],b=verts[faces[f][1]],c=verts[faces[f][2]],e=verts[faces[f][3]];int width=int(w*16),height=int(h*16);if(width<1)width=1;if(height<1)height=1;if(texture==6||texture<0){width=16;height=16;}if(texture<0){unsigned material=game.progress.inventory[game.progress.slot].id;int tile=blockTile(material);if((f==4||f==5)&&material==Log)tile=21;if(material==Grass&&f==4)tile=0;if(material==Grass&&f==5)tile=2;u=tile%16*16-8;v=tile/16*16-8;}a.u=e.u=u+8;a.v=b.v=v+8;b.u=c.u=u+8+width;c.v=e.v=v+8+height;triangle(a,b,c,texture,overlay);triangle(a,c,e,texture,overlay);}
 }
-void Gui::humanoid(float x,float y,float z,float yaw,int texture,bool overlay){
- box(x,y+1.5f,z,.5f,.5f,.5f,yaw,texture,0,0,overlay);box(x,y+.9f,z,.5f,.75f,.25f,yaw,texture,12,12,overlay);
- box(x-.38f,y+.9f,z,.25f,.75f,.25f,yaw,texture,36,12,overlay);box(x+.38f,y+.9f,z,.25f,.75f,.25f,yaw,texture,36,12,overlay);
- float walk=sinf(game.progress.stats.ticks*.13f)*.1f;box(x-.14f,y+.35f,z+walk,.25f,.7f,.25f,yaw,texture,-4,12,overlay);box(x+.14f,y+.35f,z-walk,.25f,.7f,.25f,yaw,texture,-4,12,overlay);
+void Gui::part(float x,float y,float z,float yaw,int texture,int u,int v,float px,float py,float pz,float ox,float oy,float oz,int w,int h,int d,float rx,float rz,bool overlay,float inflate){
+ Vertex vertices[8];float sn=sinf(yaw+3.14159265f),cs=cosf(yaw+3.14159265f),sx=sinf(rx),cx=cosf(rx),sz=sinf(rz),cz=cosf(rz);
+ float sy=sinf(game.player.yaw),cy=cosf(game.player.yaw),sp=sinf(game.player.pitch),cp=cosf(game.player.pitch);
+ for(int i=0;i<8;i++){float lx=ox+(i&1?w:0)+(i&1?inflate:-inflate),ly=oy+(i&2?h:0)+(i&2?inflate:-inflate),lz=oz+(i&4?d:0)+(i&4?inflate:-inflate);float yy=ly*cx-lz*sx,zz=ly*sx+lz*cx;float xx=lx*cz-yy*sz;yy=lx*sz+yy*cz;lx=px+xx;ly=py+yy;lz=pz+zz;
+ float dx=x+(lx*cs+lz*sn)/16-game.player.x,dz=z+(lz*cs-lx*sn)/16-game.player.z,dy=y+(24-ly)/16-(game.player.y+1.6f),f=dx*sy+dz*cy,depth=f*cp+dy*sp;
+ vertices[i]={dx*cy-dz*sy,dy*cp-f*sp,depth,0,0};}
+ const int faces[6][4]={{1,0,2,3},{4,5,7,6},{0,4,6,2},{5,1,3,7},{3,2,6,7},{5,4,0,1}};
+ const int uv[6][4]={{u+d,v+d,w,h},{u+2*d+w,v+d,w,h},{u,v+d,d,h},{u+d+w,v+d,d,h},{u+d+w,v,w,d},{u+d,v,w,d}};
+ for(int f=0;f<6;f++){Vertex a=vertices[faces[f][0]],b=vertices[faces[f][1]],c=vertices[faces[f][2]],e=vertices[faces[f][3]];float u0=uv[f][0]+.01f,v0=uv[f][1]+.01f,u1=uv[f][0]+uv[f][2]-.01f,v1=uv[f][1]+uv[f][3]-.01f;a.u=e.u=u0;b.u=c.u=u1;a.v=b.v=v0;c.v=e.v=v1;cameraTriangle(a,b,c,texture,overlay);cameraTriangle(a,c,e,texture,overlay);}
+}
+void Gui::humanoid(float x,float y,float z,float yaw,int texture,bool overlay,float phase,float amount){
+ float walk=overlay?0:cosf(phase*.6662f)*1.4f*amount;
+ part(x,y,z,yaw,texture,0,0,0,0,0,-4,-8,-4,8,8,8,0,0,overlay);
+ if(texture==8)part(x,y,z,yaw,texture,32,0,0,0,0,-4,-8,-4,8,8,8,0,0,overlay,.5f);
+ part(x,y,z,yaw,texture,16,16,0,0,0,-4,0,-2,8,12,4,0,0,overlay);
+ bool skeleton=texture==18;int width=skeleton?2:4;
+ part(x,y,z,yaw,texture,40,16,-5,2,0,-width+1,-2,skeleton?-1:-2,width,12,width,texture==17||texture==18?-1.5707963f-walk*.2f:-walk,.05f,overlay);
+ part(x,y,z,yaw,texture,40,16,5,2,0,-1,-2,skeleton?-1:-2,width,12,width,texture==17||texture==18?-1.5707963f+walk*.2f:walk,-.05f,overlay);
+ part(x,y,z,yaw,texture,0,16,-2,12,0,skeleton?-1:-2,0,skeleton?-1:-2,width,12,width,walk,0,overlay);
+ part(x,y,z,yaw,texture,0,16,2,12,0,skeleton?-1:-2,0,skeleton?-1:-2,width,12,width,-walk,0,overlay);
+}
+void Gui::quadruped(const Animal& a){
+ int texture=9+a.kind;int index=int(&a-game.progress.animals);float phase=walkPhase[index]*.6662f,walk=cosf(phase)*1.4f*walkAmount[index];
+ if(a.kind==3){part(a.x,a.y,a.z,a.yaw,texture,0,0,0,15,-4,-2,-6,-2,4,6,3);part(a.x,a.y,a.z,a.yaw,texture,14,0,0,15,-4,-2,-4,-4,4,2,2);part(a.x,a.y,a.z,a.yaw,texture,14,4,0,15,-4,-1,-2,-3,2,2,2);part(a.x,a.y,a.z,a.yaw,texture,0,9,0,16,0,-3,-4,-3,6,8,6);for(int i=0;i<2;i++)part(a.x,a.y,a.z,a.yaw,texture,26,0,i?1:-1,19,1,-1,0,-3,3,5,3,i?walk:-walk);for(int i=0;i<2;i++)part(a.x,a.y,a.z,a.yaw,texture,24,13,i?4:-4,13,0,0,0,-3,1,4,6,0,sinf(phase*2)*(i?1:-1)*.4f);return;}
+ if(a.kind==1){
+ part(a.x,a.y,a.z,a.yaw,texture,0,0,0,4,-8,-4,-4,-6,8,8,6);
+ part(a.x,a.y,a.z,a.yaw,texture,18,4,0,5,2,-6,-10,-7,12,18,10,1.5707963f);
+ for(int horn=0;horn<2;horn++)part(a.x,a.y,a.z,a.yaw,texture,22,0,horn?4:-5,4,-8,0,-7,-2,1,3,1);
+ for(int i=0;i<4;i++)part(a.x,a.y,a.z,a.yaw,texture,0,16,i%2?4:-4,12,i/2?7:-6,-2,0,-2,4,12,4,(i==0||i==3)?walk:-walk);return;}
+ int leg=a.kind==0?6:12;
+ if(a.kind==2){part(a.x,a.y,a.z,a.yaw,texture,0,0,0,6,-8,-3,-4,-6,6,6,8);part(a.x,a.y,a.z,a.yaw,texture,28,8,0,5,2,-4,-10,-7,8,16,6,1.5707963f);
+ if(!a.sheared){part(a.x,a.y,a.z,a.yaw,22,0,0,0,6,-8,-3,-4,-4,6,6,6,0,0,false,.6f);part(a.x,a.y,a.z,a.yaw,22,28,8,0,5,2,-4,-10,-7,8,16,6,1.5707963f,0,false,1.1f);}}
+ else{part(a.x,a.y,a.z,a.yaw,texture,0,0,0,18-leg,-6,-4,-4,-8,8,8,8);part(a.x,a.y,a.z,a.yaw,texture,28,8,0,17-leg,2,-5,-10,-7,10,16,8,1.5707963f);}
+ for(int i=0;i<4;i++)part(a.x,a.y,a.z,a.yaw,texture,0,16,i%2?3:-3,24-leg,i/2?7:-5,-2,0,-2,4,leg,4,(i==0||i==3)?walk:-walk);
+
 }
 
 bool Gui::screenshot(const char* path)const{FILE* f=fopen(path,"wb");if(!f)return false;fprintf(f,"P6\n320 200\n255\n");for(int i=0;i<64000;i++)fwrite(game.palette+pixels[i]*3,1,3,f);bool ok=!ferror(f);fclose(f);return ok;}

@@ -12,7 +12,7 @@ static int terrain(int x,int z,uint32_t seed) {
     return 24+((noise(a,b,seed)*(8-u)+noise(a+1,b,seed)*u)*(8-v)
               +(noise(a,b+1,seed)*(8-u)+noise(a+1,b+1,seed)*u)*v)/64;
 }
-Game::Game():viewDistance(24),difficulty(2),selected(Stone) { memset(blocks,0,sizeof blocks); memset(atlas,0,sizeof atlas); memset(palette,0,sizeof palette); memset(alpha,0,sizeof alpha); memset(frame,0,sizeof frame); memset(shade,0,sizeof shade); memset(&player,0,sizeof player); }
+Game::Game():viewDistance(24),difficulty(2),selected(Stone),clockFraction(0) { memset(blocks,0,sizeof blocks); memset(atlas,0,sizeof atlas); memset(palette,0,sizeof palette); memset(alpha,0,sizeof alpha); memset(frame,0,sizeof frame); memset(shade,0,sizeof shade); memset(&player,0,sizeof player); }
 unsigned Game::index(int x,int y,int z) {
     return unsigned(((z>>4)*4+(x>>4))*CHUNK_SIZE+((x&15)<<11)+((z&15)<<7)+y);
 }
@@ -26,6 +26,7 @@ bool Game::set(int x,int y,int z,uint8_t b) {
     blocks[index(x,y,z)]=b; return true;
 }
 void Game::generate(uint32_t seed) {
+    clockFraction=0;
     progress.reset();
     memset(blocks,0,sizeof blocks);
     for(int x=0;x<WORLD_SIZE;x++) for(int z=0;z<WORLD_SIZE;z++) {
@@ -209,11 +210,12 @@ bool Game::place(){Hit h=target();if(!h.found)return false;int x=h.x+h.nx,y=h.y+
     if(get(x,y,z)!=Air||!set(x,y,z,uint8_t(material)))return false;
     if(collides(player.x,player.y,player.z)){set(x,y,z,Air);return false;}if(progress.enabled)progress.take(progress.slot);progress.stats.blocksPlaced++;progress.stats.used[material]++;return true;
 }
+void Game::advanceClock(double seconds){if(seconds<=0||seconds>86400)return;double ticks=seconds*50+clockFraction;uint32_t whole=uint32_t(ticks+1e-8);clockFraction=ticks-whole;if(clockFraction<0)clockFraction=0;progress.worldTicks=(progress.worldTicks+whole)%60000;}
 void Game::render() {
     float sy=sinf(player.yaw),cy=cosf(player.yaw),sp=sinf(player.pitch),cp=cosf(player.pitch);
     int forward[3]={int(sy*cp*1024),int(sp*1024),int(cy*cp*1024)};
     int right[3]={int(cy*1024),0,int(-sy*1024)},up[3]={int(-sy*sp*1024),int(cp*1024),int(-cy*sp*1024)};
-    float daylight=sinf(float(progress.stats.ticks%60000)*6.2831853f/60000)*1.5f+.3f;if(daylight<0)daylight=0;if(daylight>1)daylight=1;int level=int(daylight*15);
+    unsigned time=progress.worldTicks;float daylight=time<30000?1.f:time<34500?1.f-float(time-30000)/4500:time<55500?0.f:float(time-55500)/4500;int level=int(daylight*15);
     uint8_t sky=nearest(int(8+102*daylight),int(12+153*daylight),int(28+197*daylight)),white=nearest(255,255,255);
     for(int y=0;y<HEIGHT;y++) {
         int row=(HEIGHT-1-y*2)*1024/WIDTH;

@@ -1,1 +1,1 @@
-Sanitizer results from the previous build do not cover this 3D update. Current validation: DOSBox 6 MB functional and VGA checks.
+Current host build passed 25 engine + 115 feature checks with AddressSanitizer, UndefinedBehaviorSanitizer and LeakSanitizer enabled; exit 0, no findings.

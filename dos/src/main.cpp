@@ -91,8 +91,9 @@ int main(int argc,char** argv) {
     int breakX=-1,breakY=-1,breakZ=-1;float breakSeconds=0;
     unsigned frames=0,mismatches=0;uclock_t start=uclock();
     while(!gui.quit) {
-        uclock_t now=uclock();float dt=float(now-previous)/UCLOCKS_PER_SEC;previous=now;
-        if(dt>.25f)dt=.25f;
+        uclock_t now=uclock();double realElapsed=double(now-previous)/UCLOCKS_PER_SEC;float dt=float(realElapsed);previous=now;
+        if(gui.screen==mc::Playing||gui.screen==mc::Inventory||gui.screen==mc::Crafting)game.advanceClock(realElapsed);
+        if(dt>.25f)dt=.25f;gui.attackAnimation-=dt*3;if(gui.attackAnimation<0)gui.attackAnimation=0;
         bool savePressed=keys[63]&&!previousKeys[63];
         for(int i=1;i<128;i++){if(keys[i]&&!previousKeys[i])gui.key(i,asciiFor(i));previousKeys[i]=keys[i]!=0;}
         unsigned buttons=0;
@@ -107,7 +108,7 @@ int main(int argc,char** argv) {
             accumulator+=dt;while(accumulator>=.02f){game.update(int(keys[17])-int(keys[31]),int(keys[32])-int(keys[30]),keys[57]!=0,.02f);accumulator-=.02f;}
             attackWait-=dt;
             if(keys[45]||(buttons&1)){
-                bool animal=attackWait<=0&&game.attackAnimal();if(animal){attackWait=.5f;breakSeconds=0;gui.mining=0;}
+                bool animal=attackWait<=0&&game.attackAnimal();if(animal){gui.attackAnimation=1;attackWait=.5f;breakSeconds=0;gui.mining=0;}
                 else{mc::Hit h=game.target();if(!h.found){breakSeconds=0;gui.mining=0;}else{if(h.x!=breakX||h.y!=breakY||h.z!=breakZ){breakX=h.x;breakY=h.y;breakZ=h.z;breakSeconds=0;}breakSeconds+=dt;gui.mining=breakSeconds/game.breakingTime(h);if(gui.mining>=1){game.mine();breakSeconds=0;gui.mining=0;}}}
             }else{breakSeconds=0;gui.mining=0;}
             if((keys[46]||(buttons&2))&&attackWait<=0){mc::Hit target=game.target();if(game.attackAnimal(true)){}else if(target.found&&target.block==58)gui.open(mc::Crafting);else game.place();attackWait=.3f;}

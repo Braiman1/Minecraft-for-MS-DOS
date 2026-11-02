@@ -25,7 +25,7 @@ def convert_ui(root,out):
   key=(r,g,b)
   if key not in cache:cache[key]=min(range(1,256),key=lambda i:sum((key[c]-colors[i][c])**2 for c in range(3)))
   return cache[key]
- images.extend(Image.open(assets/f).convert('RGBA') for f in ['mob/zombie.png','mob/skeleton.png','mob/creeper.png','terrain/sun.png','terrain/moon.png'])
+ images.extend(Image.open(assets/f).convert('RGBA') for f in ['mob/zombie.png','mob/skeleton.png','mob/creeper.png','terrain/sun.png','terrain/moon.png','mob/sheep_fur.png'])
  records=[];payload=bytearray()
  for image in images:
   data=bytes(color(p) for p in image.getdata());records.append(struct.pack('<HHI',image.width,image.height,len(data)));payload.extend(data)

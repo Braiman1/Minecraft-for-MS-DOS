@@ -52,13 +52,20 @@ inline int checkFeatures(mc::Game& g,mc::Gui& ui,FILE* report){
     // A deterministic scene makes all four passive animals visible for inspection.
     memset(g.blocks,0,sizeof g.blocks);for(int x=0;x<64;x++)for(int z=0;z<64;z++)g.set(x,30,z,mc::Grass);
     g.player.x=32;g.player.y=31;g.player.z=20;g.player.yaw=0;g.player.pitch=-.04f;
-    for(int i=0;i<12;i++){p.animals[i].health=i<4?10:0;p.animals[i].kind=i%4;p.animals[i].x=28+i*2.5f;p.animals[i].y=31;p.animals[i].z=29;}
+    for(int i=0;i<12;i++){p.animals[i].health=i<4?10:0;p.animals[i].kind=i%4;p.animals[i].x=28+i*2.5f;p.animals[i].y=31;p.animals[i].z=29;p.animals[i].yaw=3.14159f;}
     g.viewDistance=24;g.render();uint32_t before=2166136261U;for(int i=0;i<16000;i++)before=(before^g.frame[i])*16777619U;
     ui.drawAnimals();uint32_t after=2166136261U;for(int i=0;i<16000;i++)after=(after^g.frame[i])*16777619U;FEATURE(before!=after);ui.draw();FEATURE(ui.screenshot("../ANIMALS.PPM"));
     ui.open(mc::WorldList);ui.click(110,163);FEATURE(ui.screen==mc::DeleteWorld);ui.click(100,121);FEATURE(!ui.worlds[0].used);FILE* removed=fopen("WORLD1.SAV","rb");FEATURE(removed==0);if(removed)fclose(removed);
     unsigned green=0;for(int i=0;i<256;i++){unsigned c=g.vegetation[i];if(g.palette[c*3+1]>g.palette[c*3]&&g.palette[c*3+1]>g.palette[c*3+2])green++;}FEATURE(green>100);
-    g.player.pitch=1.3f;g.player.yaw=0;g.progress.stats.ticks=15000;g.render();ui.drawAnimals();ui.open(mc::Playing);ui.draw();FEATURE(ui.screenshot("../DAY.PPM"));uint8_t dayPixel=g.frame[0];
-    g.progress.stats.ticks=45000;FEATURE(g.night());g.render();ui.drawAnimals();ui.draw();FEATURE(ui.screenshot("../NIGHT.PPM"));FEATURE(dayPixel!=g.frame[0]);
+    g.player.pitch=1.3f;g.player.yaw=0;g.progress.worldTicks=15000;g.render();ui.drawAnimals();ui.open(mc::Playing);ui.draw();FEATURE(ui.screenshot("../DAY.PPM"));uint8_t dayPixel=g.frame[0];
+    g.progress.worldTicks=45000;FEATURE(g.night());g.render();ui.drawAnimals();ui.draw();FEATURE(ui.screenshot("../NIGHT.PPM"));FEATURE(dayPixel!=g.frame[0]);
+    g.progress.worldTicks=0;for(int i=0;i<1200;i++)g.advanceClock(1.0);FEATURE(g.progress.worldTicks==0);
+    g.advanceClock(600);FEATURE(g.progress.worldTicks==30000&&!g.night());g.advanceClock(90);FEATURE(g.night());g.advanceClock(420);FEATURE(!g.night());g.advanceClock(90);FEATURE(g.progress.worldTicks==0);
+    for(int i=0;i<6000;i++)g.advanceClock(.2);FEATURE(g.progress.worldTicks==0);
+    for(int i=0;i<72000;i++)g.advanceClock(1.0/60);FEATURE(g.progress.worldTicks==0);
+    g.progress.worldTicks=12345;FEATURE(g.progress.save("CLOCK.PLY"));g.progress.worldTicks=0;FEATURE(g.progress.load("CLOCK.PLY")&&g.progress.worldTicks==12345);
+    g.player.x=32;g.player.y=31;g.player.z=20;g.player.yaw=0;g.player.pitch=0;g.viewDistance=24;
+    for(int kind=0;kind<7;kind++){for(int i=0;i<12;i++)p.animals[i].health=0;p.animals[0]={32,31,24,3.14159f,0,uint8_t(kind),10,0};g.progress.worldTicks=kind>=4?45000:15000;g.render();ui.drawAnimals();ui.draw();char name[24];sprintf(name,"../MODEL%d.PPM",kind);FEATURE(ui.screenshot(name));}
     fprintf(report,"FEATURE_CHECKS=%d FEATURE_FAILURES=%d RECIPE_COUNT=%u\n",checks,failed,count);
 #undef FEATURE
     return failed;

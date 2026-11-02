@@ -15,6 +15,7 @@ public:
     Stack inventory[36],grid[9];
     Statistics stats;
     Animal animals[12];
+    uint32_t worldTicks;
     float fallStart;
     float walkingRemainder;
     Progress();

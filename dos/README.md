@@ -96,3 +96,7 @@ El renderizador incorpora triángulos texturizados con interpolación en perspec
 Hay zombis, esqueletos y creepers básicos en las plazas de entidades reservadas; se activan de noche y persiguen/atacan cuerpo a cuerpo. Faltan flechas, explosiones, reglas completas de aparición y combustión solar. No se presenta esto como la IA original completa.
 
 El reloj usa los ticks simulados guardados en el perfil, con ciclo de veinte minutos. El cielo y la iluminación del terreno cambian y se dibujan sol y luna con las texturas del repositorio. El césped y las hojas reciben tinte verde mediante una tabla de paleta; no es todavía un sistema de biomas completo. Las descripciones antiguas de sprites y ausencia de ciclo solar corresponden a la compilación anterior y quedan sustituidas por esta sección.
+
+## Correcciones de modelos y duración
+
+Véase [MODELS.md](MODELS.md): se corrigieron UV por cara, articulaciones, proporciones por especie, lana, Steve y recorte cercano. El ciclo dura 20 minutos (10 día, 1,5 atardecer, 7 noche, 1,5 amanecer), separado del límite de física por cuadro y guardado en el perfil. No se afirma equivalencia completa de modelos o animaciones.

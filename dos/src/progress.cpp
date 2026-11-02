@@ -6,7 +6,7 @@
 #include "item_info.inc"
 namespace mc {
 Progress::Progress(){reset();}
-void Progress::reset(){enabled=true;health=20;slot=0;achievements=0;fallStart=0;walkingRemainder=0;memset(inventory,0,sizeof inventory);memset(grid,0,sizeof grid);memset(&stats,0,sizeof stats);memset(animals,0,sizeof animals);}
+void Progress::reset(){enabled=true;health=20;slot=0;achievements=0;worldTicks=0;fallStart=0;walkingRemainder=0;memset(inventory,0,sizeof inventory);memset(grid,0,sizeof grid);memset(&stats,0,sizeof stats);memset(animals,0,sizeof animals);}
 unsigned Progress::maxStack(unsigned id){if(id==357)return 8;if(id==332||id==344)return 16;return (id>=256&&id<=259)||(id>=267&&id<=279)||(id>=283&&id<=286)||(id>=290&&id<=294)||(id>=298&&id<=317)||id==260||id==261||id==282||id==297||id==319||id==320||(id>=322&&id<=330)||id==333||id==335||id==342||id==343||id==346||id==349||id==350||id==354||id==355||id==358||id==359?1:64;}
 unsigned Progress::durability(unsigned tool){return tool==270||tool==269||tool==271||tool==268||tool==290?59:tool==274||tool==273||tool==275||tool==272||tool==291?131:tool==278||tool==277||tool==279||tool==276||tool==293?1561:tool==285||tool==284||tool==286||tool==283||tool==294?32:250;}
 bool Progress::add(unsigned id,unsigned count,unsigned data){
@@ -67,19 +67,20 @@ static void word(FILE* f,uint32_t v){for(int i=0;i<4;i++){unsigned b=(v>>(i*8))&
 static uint32_t word(FILE* f){uint32_t v=0;for(int i=0;i<4;i++){int c=fgetc(f);if(c<0)return 0;fileHash=(fileHash^unsigned(c))*16777619U;v|=uint32_t(c)<<(i*8);}return v;}
 bool Progress::save(const char* path)const{
     if(strlen(path)>250)return false;char stem[260],temporary[260],backup[260];strcpy(stem,path);char* extension=strrchr(stem,'.');if(extension)*extension=0;sprintf(temporary,"%s.PTM",stem);sprintf(backup,"%s.PBK",stem);
-    FILE* f=fopen(temporary,"wb");if(!f)return false;fwrite("MCPROG02",1,8,f);fileHash=2166136261U;word(f,health);word(f,slot);word(f,achievements);word(f,enabled?1:0);
+    FILE* f=fopen(temporary,"wb");if(!f)return false;fwrite("MCPROG03",1,8,f);fileHash=2166136261U;word(f,health);word(f,slot);word(f,achievements);word(f,enabled?1:0);
     for(int i=0;i<45;i++){const Stack& s=i<36?inventory[i]:grid[i-36];word(f,s.id);word(f,s.count);word(f,s.data);word(f,s.wear);}
     uint32_t values[sizeof(stats)/4];memcpy(values,&stats,sizeof stats);for(unsigned i=0;i<sizeof(stats)/4;i++)word(f,values[i]);
     for(int i=0;i<12;i++){const Animal& a=animals[i];float xyz[4]={a.x,a.y,a.z,a.yaw};for(int j=0;j<4;j++){uint32_t bits;memcpy(&bits,&xyz[j],4);word(f,bits);}word(f,a.turn);word(f,a.kind);word(f,a.health);word(f,a.sheared);}
-    uint32_t complete=fileHash;word(f,complete);bool ok=!ferror(f);if(fclose(f))ok=false;if(!ok){remove(temporary);return false;}
+    word(f,worldTicks);uint32_t complete=fileHash;word(f,complete);bool ok=!ferror(f);if(fclose(f))ok=false;if(!ok){remove(temporary);return false;}
     FILE* previous=fopen(path,"rb");if(previous){fclose(previous);remove(backup);if(rename(path,backup))return false;}if(rename(temporary,path)){rename(backup,path);return false;}return true;
 }
 bool Progress::load(const char* path){
-    FILE* f=fopen(path,"rb");if(!f)return false;Progress p;char magic[8];bool ok=fread(magic,1,8,f)==8&&!memcmp(magic,"MCPROG02",8);fileHash=2166136261U;
+    FILE* f=fopen(path,"rb");if(!f)return false;Progress p;char magic[8];bool ok=fread(magic,1,8,f)==8&&(!memcmp(magic,"MCPROG02",8)||!memcmp(magic,"MCPROG03",8));fileHash=2166136261U;
     unsigned health=word(f),slot=word(f);p.health=uint8_t(health);p.slot=uint8_t(slot);if(health>20||slot>=9)ok=false;p.achievements=word(f);p.enabled=word(f)!=0;
     for(int i=0;i<45;i++){Stack& s=i<36?p.inventory[i]:p.grid[i-36];unsigned id=word(f),n=word(f),data=word(f),wear=word(f);if(id>=360||n>maxStack(id)||data>15||wear>65535||(!id&&n)||(!n&&id))ok=false;s.id=id;s.count=n;s.data=data;s.wear=wear;}
     uint32_t values[sizeof(p.stats)/4];for(unsigned i=0;i<sizeof(p.stats)/4;i++)values[i]=word(f);memcpy(&p.stats,values,sizeof p.stats);
     for(int i=0;i<12;i++){Animal& a=p.animals[i];float xyz[4];for(int j=0;j<4;j++){uint32_t bits=word(f);memcpy(&xyz[j],&bits,4);if(!(xyz[j]>-10000&&xyz[j]<10000))ok=false;}a.x=xyz[0];a.y=xyz[1];a.z=xyz[2];a.yaw=xyz[3];a.turn=uint16_t(word(f));a.kind=uint8_t(word(f));a.health=uint8_t(word(f));a.sheared=uint8_t(word(f));if(a.kind>6||a.health>10||a.sheared>1)ok=false;}
+    p.worldTicks=!memcmp(magic,"MCPROG03",8)?word(f):p.stats.ticks%60000;if(p.worldTicks>=60000)ok=false;
     uint32_t actual=fileHash,expected=word(f);ok=ok&&actual==expected&&fgetc(f)==EOF;
     fclose(f);if(ok)*this=p;return ok;
 }

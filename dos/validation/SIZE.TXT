@@ -1,2 +1,2 @@
    text	   data	    bss	    dec	    hex	filename
- 212312	  26112	1487872	1726296	 1a5758	dos/build/dos/MCDOS.EXE
+ 221016	  26112	1488384	1735512	 1a7b58	dos/build/dos/MCDOS.EXE
