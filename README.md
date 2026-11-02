@@ -1,13 +1,12 @@
 # Minecraft-for-MS-DOS
 
-Recreación en proceso de adaptación a **MS-DOS, Pentium, VGA y 6 MB de RAM**, tomando Beta 1.7.3 como referencia.
+The game is currently being adapted for **MS-DOS, Pentium, VGA, and 6 MB of RAM**, based on Beta 1.7.3.
 
-La rama DOS incluye menú gráfico de referencia, tres espacios de mundo, inventario y crafteo 2×2/3×3, vida y supervivencia básica, animales básicos, Steve en el inventario, logros y estadísticas guardados por mundo. Se compila con DJGPP a un ejecutable DOS real; no requiere Windows, Java, SDL ni OpenGL.
 
-- [Descargar paquete DOS completo](dos/dist/MCDOS.ZIP): extraer y ejecutar `PLAY.BAT`.
-- [Controles, compilación, funciones y limitaciones](dos/README.md).
-- [151 recetas reconstruidas y evidencia](dos/RECIPES.md).
-- [Validación y capturas con 6 MB](dos/validation/).
-- [Análisis y pseudocódigo de referencia](docs/reverse-engineering/README.md).
+- [Download the complete DOS package](dos/dist/MCDOS.ZIP): extract and run `PLAY.BAT`.
+- [Checks, Compilation, Functions, and Limitations](dos/README.md).
+- [151 reconstructed recipes and evidence](dos/RECIPES.md).
+- [Validation and screenshots with 6 MB of RAM](dos/validation/).
+- [Analysis and Sample Pseudocode](docs/reverse-engineering/README.md).
 
-**El port sigue incompleto.** Los animales y Steve usan modelos 3D aproximados; hay sistemas de supervivencia y comportamiento de bloques pendientes. Multiplayer y carga de mods aún no funcionan. Hay ciclo solar con sol/luna, tinte verde de vegetación, objetos sostenidos y semillas numéricas de 32 bits con generación automática. La documentación distingue el catálogo y las pantallas de las funciones efectivamente portadas. `BetaPlusPlus.exe` permanece intacto como referencia Windows.
+**The port is still incomplete.** The animals and Steve use rough 3D models; the survival and behavior systems are still pending. Multiplayer and mod loading do not yet work. There is a solar cycle with sun/moon, green vegetation tint, held items, and 32-bit numerical seeds with automatic generation. The documentation distinguishes between the catalog and screens and the features that have actually been ported. `BetaPlusPlus.exe` remains intact as a Windows reference.
