@@ -1,0 +1,4 @@
+docs/reverse-engineering/** linguist-generated=true
+dos/third_party/** -text
+dos/validation/*.TXT -text
+*.PPM binary

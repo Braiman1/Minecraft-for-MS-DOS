@@ -5,3 +5,5 @@ __pycache__/
 *.TMP
 RESULT.TXT
 FRAME.PPM
+!validation/RESULT.TXT
+!validation/FRAME.PPM

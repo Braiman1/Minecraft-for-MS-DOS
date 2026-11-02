@@ -27,7 +27,7 @@ Se recuperaron 610 nombres de tipos y 537 tablas virtuales candidatas correspond
 
 Los desensamblados de muestra en `validation/` permiten cotejar operaciones de chunks e inventario con el pseudocódigo. No constituyen una prueba completa de equivalencia.
 
-El proyecto editable de Ghidra se conserva en el entorno de análisis, en `/workspace/reverse-engineering/projects/BetaPlusPlus.gpr`; no se añade la base de datos binaria a Git. La herramienta está en `/workspace/tools/ghidra_12.2_PUBLIC`; requiere el JDK 25 instalado en `/workspace/tools/jdk-25.0.5.0.3`. El script `../reanalyze.sh` vuelve a exportar un proyecto ya analizado y regenera los índices. No ejecuta el juego.
+El proyecto editable de Ghidra se conserva en el entorno de análisis, en `/workspace/reverse-engineering/projects/BetaPlusPlus.gpr`; no se añade la base de datos binaria a Git. La herramienta está en `/workspace/tools/ghidra_12.2_PUBLIC`; requiere el JDK 25 instalado en `/workspace/tools/jdk-25.0.5.0.3`. El script `/workspace/reverse-engineering/reanalyze.sh`, conservado en el entorno original, vuelve a exportar un proyecto ya analizado y regenera los índices. Las fuentes de los exportadores están incluidas aquí en `scripts/`. No ejecuta el juego.
 
 ## Límites y evidencia técnica
 
