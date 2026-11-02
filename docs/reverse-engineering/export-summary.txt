@@ -1,0 +1,8 @@
+program=BetaPlusPlus.exe
+language=x86:LE:32:default
+compiler=windows
+functions=10213
+decompiled=9945
+failed=1
+thunks=267
+cancelled=false

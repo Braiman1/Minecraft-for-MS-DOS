@@ -1,0 +1,134 @@
+subsystem_hint	function_address	function_name	string_address	string
+inicio	004bd588	FUN_004bd588	008909fe	Minecraft: Minecraft Beta 1.7.3 
+inicio	004bd588	FUN_004bd588	00890a2c	VM: C++ (BetaPlusPlus) 
+inicio	004bd588	FUN_004bd588	00890a44	LWJGL: SDL2 (N/A) 
+inicio	004bd588	FUN_004bd588	00890be5	      Minecraft has crashed!       
+inicio	0051b198	FUN_0051b198	00896e53	Minecraft has crashed!
+audio	00416d5a	FUN_00416d5a	00886537	musicBlock
+audio	00849c14	FUN_00849c14	00889f6c	options.music
+audio	00849c14	FUN_00849c14	00889f7a	options.sound
+audio	00472974	FUN_00472974	0088a6dc	music
+audio	00472974	FUN_00472974	0088a6e2	sound
+audio	004735de	FUN_004735de	0088a9b3	music:
+audio	004735de	FUN_004735de	0088a9ba	sound:
+audio	00484236	FUN_00484236	0088c600	Fixes stuck keys, slow input response and sound lag
+audio	004f411a	FUN_004f411a	00894ff4	SoundManager: SDL_OpenAudioDevice failed: 
+audio	004f4e6e	FUN_004f4e6e	008950b6	SoundPool name has no extension separator
+audio	005034ba	FUN_005034ba	0089629c	sound
+audio	005034ba	FUN_005034ba	008962a2	newsound
+audio	0051d0b0	FUN_0051d0b0	00897047	sound
+audio	0051d0b0	FUN_0051d0b0	0089704d	newsound
+audio	0051d0b0	FUN_0051d0b0	00897060	music
+audio	0051d0b0	FUN_0051d0b0	00897066	newmusic
+audio	0063deb0	FUN_0063deb0	008d4c32	directsound
+audio	0063deb0	FUN_0063deb0	008d4c32	directsound
+audio	0063deb0	FUN_0063deb0	008d4c4e	dsound
+audio	0063deb0	FUN_0063deb0	008d4c4e	dsound
+audio	007123b0	FUN_007123b0	008e0290	DSOUND.DLL
+audio	007123b0	FUN_007123b0	008e029c	DirectSound: failed to load DSOUND.DLL
+audio	007123b0	FUN_007123b0	008e02c3	DirectSoundCreate8
+audio	007123b0	FUN_007123b0	008e02d6	DirectSoundEnumerateW
+audio	007123b0	FUN_007123b0	008e02ec	DirectSoundCaptureCreate8
+audio	007123b0	FUN_007123b0	008e0306	DirectSoundCaptureEnumerateW
+audio	007123b0	FUN_007123b0	008e0324	DirectSound: System doesn't appear to have DX8.
+audio	007125d0	FUN_007125d0	008e0485	Unknown DirectSound error
+audio	007125d0	FUN_007125d0	008e0485	Unknown DirectSound error
+audio	007125d0	FUN_007125d0	008e0485	Unknown DirectSound error
+audio	007125d0	FUN_007125d0	008e0485	Unknown DirectSound error
+audio	007125d0	FUN_007125d0	008e0485	Unknown DirectSound error
+audio	007125d0	FUN_007125d0	008e0485	Unknown DirectSound error
+audio	007125d0	FUN_007125d0	008e0485	Unknown DirectSound error
+audio	007125d0	FUN_007125d0	008e0485	Unknown DirectSound error
+audio	007125d0	FUN_007125d0	008e0485	Unknown DirectSound error
+audio	007125d0	FUN_007125d0	008e0485	Unknown DirectSound error
+audio	007125d0	FUN_007125d0	008e04a0	DirectSound GetCurrentPosition
+audio	007125d0	FUN_007125d0	008e04cd	DirectSound Lock
+audio	0063deb0	FUN_0063deb0	008e0500	directsound
+chunks_guardado	00434486	FUN_00434486	008870b4	Invalid Blocks size in chunk %d,%d: %zu bytes; expected %zu. Regenerating chunk. 
+chunks_guardado	00434d0c	FUN_00434d0c	0088715b	SkyLight
+chunks_guardado	00434486	FUN_00434486	0088715b	SkyLight
+chunks_guardado	00434486	FUN_00434486	00887164	Invalid SkyLight size in chunk %d,%d: %zu bytes; expected %zu. Regenerating skylight. 
+chunks_guardado	00434d0c	FUN_00434d0c	008871bb	BlockLight
+chunks_guardado	00434486	FUN_00434486	008871bb	BlockLight
+chunks_guardado	00434486	FUN_00434486	008871c6	Invalid BlockLight size in chunk %d,%d: %zu bytes; expected %zu. Resetting block light. 
+chunks_guardado	00434486	FUN_00434486	00887229	Invalid HeightMap size in chunk %d,%d: %zu bytes; expected %zu. Regenerating heightmap/skylight. 
+chunks_guardado	00434a3e	FUN_00434a3e	008872b8	Chunk file at %d,%d is missing level data, skipping 
+chunks_guardado	00434a3e	FUN_00434a3e	008872ed	Chunk file at %d,%d is missing block data, skipping 
+chunks_guardado	00436640	FUN_00436640	0088753c	ChunkProvider: refusing to regenerate unreadable chunk %d,%d 
+chunks_guardado	0043c182	FUN_0043c182	008878ce	ChunkProviderLoadOrGenerate: refusing to regenerate unreadable chunk %d,%d 
+chunks_guardado	004a424a	FUN_004a424a	0088f1fc	Chunk file at %d,%d is missing level data, skipping 
+chunks_guardado	004a424a	FUN_004a424a	0088f238	Chunk file at %d,%d is missing block data, skipping 
+renderizado	004409bc	FUN_004409bc	00887af3	OpenGL: 
+renderizado	004409bc	FUN_004409bc	00887b09	OpenGL Fancy fog: Not available (GL_NV_fog_distance)
+renderizado	004409bc	FUN_004409bc	00887b3e	OpenGL Occlussion culling: Not available (GL_ARB_occlusion_query)
+renderizado	00849c14	FUN_00849c14	00889fec	options.advancedOpengl
+renderizado	00471084	FUN_00471084	0088a427	OpenGL could not allocate display lists
+renderizado	00472974	FUN_00472974	0088a72f	advancedOpengl
+renderizado	004735de	FUN_004735de	0088aa0e	advancedOpengl:
+renderizado	004bd588	FUN_004bd588	00890a57	OpenGL: 
+renderizado	004bd588	FUN_004bd588	00890ad7	Minecraft was unable to start because it failed to find an accelerated OpenGL mode. 
+renderizado	00570840	FUN_00570840	008a2c82	OpenGL ES-CM 
+renderizado	00570840	FUN_00570840	008a2c82	OpenGL ES-CM 
+renderizado	00570840	FUN_00570840	008a2c9e	OpenGL ES 
+renderizado	005c3c60	FUN_005c3c60	008c8410	D:/MC/MC BETA 1.7.3 SOURCE CODE JAVA/McBetaCpp/external/SDL2/src/render/opengl/SDL_render_gl.c
+renderizado	005c3c60	FUN_005c3c60	008c8410	D:/MC/MC BETA 1.7.3 SOURCE CODE JAVA/McBetaCpp/external/SDL2/src/render/opengl/SDL_render_gl.c
+renderizado	005c54c0	FUN_005c54c0	008c8410	D:/MC/MC BETA 1.7.3 SOURCE CODE JAVA/McBetaCpp/external/SDL2/src/render/opengl/SDL_render_gl.c
+renderizado	005c54c0	FUN_005c54c0	008c8410	D:/MC/MC BETA 1.7.3 SOURCE CODE JAVA/McBetaCpp/external/SDL2/src/render/opengl/SDL_render_gl.c
+renderizado	005c54c0	FUN_005c54c0	008c8410	D:/MC/MC BETA 1.7.3 SOURCE CODE JAVA/McBetaCpp/external/SDL2/src/render/opengl/SDL_render_gl.c
+renderizado	005c6fb0	FUN_005c6fb0	008c8979	SDL_RENDER_OPENGL_SHADERS
+renderizado	005c6fb0	FUN_005c6fb0	008c8993	OpenGL shaders: %s
+renderizado	005ce720	FUN_005ce720	008cb5c8	D:/MC/MC BETA 1.7.3 SOURCE CODE JAVA/McBetaCpp/external/SDL2/src/render/opengles2/SDL_render_gles2.c
+renderizado	005cc450	FUN_005cc450	008cb5c8	D:/MC/MC BETA 1.7.3 SOURCE CODE JAVA/McBetaCpp/external/SDL2/src/render/opengles2/SDL_render_gles2.c
+renderizado	005ce300	FUN_005ce300	008cb5c8	D:/MC/MC BETA 1.7.3 SOURCE CODE JAVA/McBetaCpp/external/SDL2/src/render/opengles2/SDL_render_gles2.c
+renderizado	005cbaa0	FUN_005cbaa0	008cb754	SDL_RENDER_OPENGL_NV12_RG_SHADER
+renderizado	005cbaa0	FUN_005cbaa0	008cb754	SDL_RENDER_OPENGL_NV12_RG_SHADER
+renderizado	005cf080	FUN_005cf080	008cbde4	SDL_RENDER_OPENGLES2_TEXCOORD_PRECISION
+renderizado	005f6020	FUN_005f6020	008d016e	OpenGL library already loaded
+renderizado	005f79d0	FUN_005f79d0	008d018c	OpenGL
+renderizado	005f6020	FUN_005f6020	008d018c	OpenGL
+renderizado	005f9020	FUN_005f9020	008d018c	OpenGL
+renderizado	005f6590	FUN_005f6590	008d0298	Unknown OpenGL context flag %d
+renderizado	005f6590	FUN_005f6590	008d02b8	Unknown OpenGL context profile %d
+renderizado	005f6590	FUN_005f6590	008d02da	Unknown OpenGL attribute
+renderizado	005f6830	FUN_005f6830	008d02da	Unknown OpenGL attribute
+renderizado	005f6830	FUN_005f6830	008d03ad	OpenGL error: GL_INVALID_ENUM
+renderizado	005f6830	FUN_005f6830	008d03cc	OpenGL error: GL_INVALID_VALUE
+renderizado	005f6830	FUN_005f6830	008d03eb	OpenGL error: %08X
+renderizado	005f7010	FUN_005f7010	008d046c	The specified window isn't an OpenGL window
+renderizado	005f6f30	FUN_005f6f30	008d046c	The specified window isn't an OpenGL window
+renderizado	005f7010	FUN_005f7010	008d0498	Use of OpenGL without a window is not supported on this platform
+renderizado	005f81e0	FUN_005f81e0	008d0604	No OpenGL context has been made current
+renderizado	0070d240	FUN_0070d240	008de688	Could not initialize OpenGL / GLES library
+renderizado	00717e30	FUN_00717e30	008e0c5c	OPENGL32.DLL
+renderizado	00717e30	FUN_00717e30	008e0c69	SDL_OPENGL_LIBRARY
+renderizado	00717e30	FUN_00717e30	008e0cd0	Could not retrieve OpenGL functions
+renderizado	00717fc0	FUN_00717fc0	008e0cf4	OpenGL not initialized
+renderizado	007180d0	FUN_007180d0	008e0cf4	OpenGL not initialized
+renderizado	007180d0	FUN_007180d0	008e0cf4	OpenGL not initialized
+renderizado	00718060	FUN_00718060	008e0d1c	SDL_OPENGL_ES_DRIVER
+renderizado	007180d0	FUN_007180d0	008e0d1c	SDL_OPENGL_ES_DRIVER
+inventario	00412e28	FUN_00412e28	008861a4	openInventory
+inventario	00412e28	FUN_00412e28	008861d7	buildFurnace
+inventario	00416d5a	FUN_00416d5a	00886650	furnace
+inventario	00416d5a	FUN_00416d5a	00886650	furnace
+inventario	0045f940	FUN_0045f940	008892b5	Inventory
+inventario	004618c6	FUN_004618c6	008892b5	Inventory
+inventario	00474ca8	FUN_00474ca8	0088acaa	key.inventory
+inventario	0047aeae	FUN_0047aeae	0088b43c	/gui/crafting.png
+inventario	0047af76	FUN_0047af76	0088b44e	Crafting
+inventario	0047af76	FUN_0047af76	0088b457	Inventory
+inventario	0047d0be	FUN_0047d0be	0088bb54	Inventory
+inventario	0047de9e	FUN_0047de9e	0088bd1c	/gui/furnace.png
+inventario	0047e008	FUN_0047e008	0088bd2d	Furnace
+inventario	0047e008	FUN_0047e008	0088bd35	Inventory
+inventario	00481478	FUN_00481478	0088c180	Crafting
+inventario	0048e5a0	FUN_0048e5a0	0088d5c0	Inventory
+inventario	0048f310	FUN_0048f310	0088d5eb	Max stack size must be 1 for items with crafting results
+inventario	0048f3fc	FUN_0048f3fc	0088d9a1	minecartFurnace
+inventario	0077198c	FUN_0077198c	008f4a4c	17TileEntityFurnace
+red	0040d7e1	FUN_0040d7e1	00882ee0	SDLNet_Init failed: 
+red	004b18e0	FUN_004b18e0	0088fd32	http://www.minecraft.net/game/joinserver.jsp?user=
+red	004b18e0	FUN_004b18e0	0088fd7c	Unable to contact Minecraft session server
+red	00735300	FUN_00735300	008e2ed6	Couldn't create socket
+red	00735660	FUN_00735660	008e2f79	Server sockets cannot send
+red	007356f0	FUN_007356f0	008e2f94	Server sockets cannot receive

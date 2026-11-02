@@ -1,0 +1,7 @@
+build/
+__pycache__/
+*.SAV
+*.BAK
+*.TMP
+RESULT.TXT
+FRAME.PPM

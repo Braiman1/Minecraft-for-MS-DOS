@@ -1,0 +1,15 @@
+{
+  "binary_sha256": "d9c61755cdcf078dd0ec19bdbbc042a6d1977f9cb024d516573f7fef80f0e121",
+  "initial_function_count": 10213,
+  "unique_successfully_decompiled_functions": 11774,
+  "remaining_thunks": 265,
+  "unresolved_failed_attempts": 0,
+  "candidate_entries_inside_other_functions": 3,
+  "recovered_type_names": 610,
+  "candidate_rtti_classes": 518,
+  "candidate_vtables": 537,
+  "candidate_virtual_entries": 12772,
+  "candidate_unique_virtual_methods": 3559,
+  "candidate_virtual_methods_exported": 3556,
+  "warning": "Successful decompilation is not proof of correct or buildable C++."
+}

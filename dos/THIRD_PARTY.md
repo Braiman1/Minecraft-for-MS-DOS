@@ -1,0 +1,7 @@
+# Herramientas y runtime
+
+- **DJGPP GCC 12.2**, distribución [andrewwutw/build-djgpp v3.4](https://github.com/andrewwutw/build-djgpp/releases/tag/v3.4). Se usa como compilador externo; no se redistribuye aquí el toolchain. Las bibliotecas y el stub enlazados conservan sus condiciones originales de DJGPP/GCC.
+- **CWSDPMI**, de Charles W. Sandmann, servidor DPMI externo. `fetch_runtime.py` extrae el binario distribuido por [DOSBox-X, revisión 66480b4a84c9adc8002f21b332da8f694a9978c4](https://github.com/joncampbell123/dosbox-x/blob/66480b4a84c9adc8002f21b332da8f694a9978c4/src/builtin/cwsdpmi_exe.cpp), y valida SHA-256 `2de899fecaa90632b8b9bdfc0305cb0375e59ae252c37e32d06c1ed3f98a8f44`. El binario oficial sin modificaciones se incluye en `MCDOS.ZIP`, junto con `COPYING` y `COPYING.CWS` originales. La excepción de redistribución de `COPYING.CWS` permite acompañar el binario con la ubicación precisa de las fuentes. También se contrastó byte por byte con [esta distribución completa de fuentes y binarios](https://github.com/jayschwa/cwsdpmi/tree/ed2b39b48f12de16fc01aa2415a6b3c5b9531abc). Información y fuentes de CWSDPMI: [página del autor](http://sandmann.dotster.com/cwsdpmi/). El archivo `README.TXT` del paquete contiene la ubicación exacta de las fuentes de CWSDPMI.
+- **DOSBox 0.74-3** se usa externamente para validación; no forma parte del ejecutable del juego.
+
+Las texturas son los archivos ya existentes en este repositorio. La conversión no cambia los originales ni determina su procedencia o licencia.

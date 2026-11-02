@@ -1,0 +1,65 @@
+{
+  "file": "BetaPlusPlus.exe",
+  "sha256": "d9c61755cdcf078dd0ec19bdbbc042a6d1977f9cb024d516573f7fef80f0e121",
+  "file_size": 6425088,
+  "machine": "0x14c",
+  "image_base": "0x400000",
+  "entry_rva": "0x1410",
+  "image_size": 17367040,
+  "sections": [
+    {
+      "name": ".text",
+      "virtual_size": 4617448,
+      "virtual_address": "0x1000",
+      "raw_size": 4617728
+    },
+    {
+      "name": ".data",
+      "virtual_size": 101632,
+      "virtual_address": "0x469000",
+      "raw_size": 101888
+    },
+    {
+      "name": ".rdata",
+      "virtual_size": 604416,
+      "virtual_address": "0x482000",
+      "raw_size": 604672
+    },
+    {
+      "name": ".eh_fram",
+      "virtual_size": 913820,
+      "virtual_address": "0x516000",
+      "raw_size": 913920
+    },
+    {
+      "name": ".bss",
+      "virtual_size": 10919396,
+      "virtual_address": "0x5f6000",
+      "raw_size": 0
+    },
+    {
+      "name": ".idata",
+      "virtual_size": 14636,
+      "virtual_address": "0x1060000",
+      "raw_size": 14848
+    },
+    {
+      "name": ".tls",
+      "virtual_size": 8,
+      "virtual_address": "0x1064000",
+      "raw_size": 512
+    },
+    {
+      "name": ".rsrc",
+      "virtual_size": 1256,
+      "virtual_address": "0x1065000",
+      "raw_size": 1536
+    },
+    {
+      "name": ".reloc",
+      "virtual_size": 168588,
+      "virtual_address": "0x1066000",
+      "raw_size": 168960
+    }
+  ]
+}
